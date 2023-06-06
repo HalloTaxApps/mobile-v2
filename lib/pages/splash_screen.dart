@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hallotaxv2/pages/home_page.dart';
+import 'package:hallotaxv2/pages/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,7 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
   _navigateToHome() async {
     Future.delayed(const Duration(seconds: 2), () async {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ));
     });
   }
 
@@ -35,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Image(image: AssetImage('assets/images/Group 1.png')),
+            Image(image: AssetImage('assets/images/hallotaxlogosplash.png')),
           ],
         ),
       ),

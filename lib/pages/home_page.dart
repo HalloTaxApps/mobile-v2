@@ -45,10 +45,15 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundImage: NetworkImage(
-                          'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c'),
+                    InkWell(
+                      onTap: () {},
+                      splashColor: Colors.grey,
+                      borderRadius: BorderRadius.circular(10),
+                      child: const CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                            'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c'),
+                      ),
                     ),
                     InkWell(
                       onTap: () {},
@@ -119,21 +124,19 @@ class HomePage extends StatelessWidget {
                                   fontFamily: mainFont,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {},
-                              splashColor: Colors.grey,
-                              borderRadius: BorderRadius.circular(10),
+                            TextButton(
+                              onPressed: () {},
                               child: Text(
                                 'Selengkapnya',
                                 style: TextStyle(
                                   fontFamily: mainFont,
                                   color: mainColor,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -144,14 +147,14 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: 150,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
                             itemCount: 5,
                             itemBuilder: (context, index) {
                               return Container(
-                                margin: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(5),
                                 width: 250,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -176,21 +179,19 @@ class HomePage extends StatelessWidget {
                                   fontFamily: mainFont,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {},
-                              splashColor: Colors.grey,
-                              borderRadius: BorderRadius.circular(10),
+                            TextButton(
+                              onPressed: () {},
                               child: Text(
                                 'Selengkapnya',
                                 style: TextStyle(
                                   fontFamily: mainFont,
                                   color: mainColor,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -201,14 +202,14 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: 150,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemCount: 5,
                             itemBuilder: (context, index) {
                               return Container(
-                                margin: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(5),
                                 width: 150,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -233,21 +234,19 @@ class HomePage extends StatelessWidget {
                                   fontFamily: mainFont,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
-                            InkWell(
-                              onTap: () {},
-                              splashColor: Colors.grey,
-                              borderRadius: BorderRadius.circular(10),
+                            TextButton(
+                              onPressed: () {},
                               child: Text(
                                 'Selengkapnya',
                                 style: TextStyle(
                                   fontFamily: mainFont,
                                   color: mainColor,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -258,14 +257,14 @@ class HomePage extends StatelessWidget {
                       SizedBox(
                         height: 150,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
                             itemCount: 5,
                             itemBuilder: (context, index) {
                               return Container(
-                                margin: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.all(5),
                                 width: 250,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
