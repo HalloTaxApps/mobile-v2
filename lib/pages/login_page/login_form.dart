@@ -32,7 +32,7 @@ class LoginForm extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    'Buat Akun',
+                    'Masuk Akun',
                     style: TextStyle(
                       fontFamily: mainFont,
                       fontWeight: FontWeight.w700,
@@ -135,7 +135,7 @@ class LoginForm extends StatelessWidget {
                         // await googleSigninFunction();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey.withOpacity(0.5),
+                        backgroundColor: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

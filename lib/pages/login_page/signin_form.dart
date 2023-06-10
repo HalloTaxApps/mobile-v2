@@ -185,7 +185,7 @@ class SigninForm extends StatelessWidget {
                         // await googleSigninFunction();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey.withOpacity(0.5),
+                        backgroundColor: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
