@@ -10,7 +10,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final dynamic _body = const PraloggedPage();
+  final dynamic _body = const PralogginPage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

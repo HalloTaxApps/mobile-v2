@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hallotaxv2/pages/home_page.dart';
+import 'package:hallotaxv2/pages/login_page/signin_form.dart';
+import 'package:hallotaxv2/pages/login_page/login_form.dart';
 
 class PralogginPage extends StatelessWidget {
   const PralogginPage({super.key});
@@ -126,7 +127,12 @@ class PralogginPage extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SigninForm()));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: mainColor,
                   shape: RoundedRectangleBorder(
@@ -154,7 +160,12 @@ class PralogginPage extends StatelessWidget {
             child: Align(
               alignment: Alignment.topCenter,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginForm()));
+                },
                 child: Text(
                   'Masuk',
                   style: TextStyle(
