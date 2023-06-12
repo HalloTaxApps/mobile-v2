@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/pages/chat_page.dart';
+import 'package:hallotaxv2/pages/statuschat_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -10,7 +12,10 @@ class HomePage extends StatelessWidget {
     String mainFont = 'Nunito';
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ChatPage()));
+        },
         backgroundColor: mainColor,
         label: Text(
           'Mulai Konsultasi',
@@ -56,7 +61,12 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const StatusChatPage()));
+                      },
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
                       child: CircleAvatar(
