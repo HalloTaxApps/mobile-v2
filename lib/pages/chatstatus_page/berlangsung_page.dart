@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hallotaxv2/pages/conversation_page.dart';
+import 'package:hallotaxv2/pages/percakapan_page.dart';
 
 class BerlangsungPage extends StatefulWidget {
   const BerlangsungPage({super.key});
@@ -107,7 +107,7 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ConversationPage()));
+                    builder: (context) => const PercakapanPage()));
           },
         ),
       ),
