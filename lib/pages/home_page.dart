@@ -9,14 +9,20 @@ import 'package:hallotaxv2/pages/profil_page.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
 import 'package:hallotaxv2/pages/webview_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isNotif = true;
+  Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
+  String mainFont = 'Nunito';
+
+  @override
   Widget build(BuildContext context) {
-    bool isNotif = true;
-    Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
-    String mainFont = 'Nunito';
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

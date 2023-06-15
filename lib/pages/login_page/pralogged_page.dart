@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../home_page.dart';
 
-class PraloggedPage extends StatelessWidget {
+class PraloggedPage extends StatefulWidget {
   const PraloggedPage({super.key});
 
   @override
+  State<PraloggedPage> createState() => _PraloggedPageState();
+}
+
+class _PraloggedPageState extends State<PraloggedPage> {
+  Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
+  String mainFont = 'Nunito';
+
+  @override
   Widget build(BuildContext context) {
-    Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
-    String mainFont = 'Nunito';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 60),
       child: Column(
