@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/pages/splash_screen.dart';
+import 'package:quickalert/quickalert.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -27,7 +28,7 @@ class _ProfilPageState extends State<ProfilPage> {
           Column(
             children: const [
               SizedBox(
-                height: 50,
+                height: 70,
               ),
               SizedBox(
                 width: double.infinity,
@@ -205,7 +206,20 @@ class _ProfilPageState extends State<ProfilPage> {
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.success,
+                                      confirmBtnColor: Colors.green,
+                                      title: 'Berhasi Update',
+                                    );
+                                    // QuickAlert.show(
+                                    //   context: context,
+                                    //   type: QuickAlertType.error,
+                                    //   confirmBtnColor: Colors.red,
+                                    //   title: 'Gagal Update',
+                                    // );
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     shadowColor: Colors.black,
                                     backgroundColor: mainColor,
