@@ -26,12 +26,6 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
               children: [
                 isiDummy(),
                 isiDummy(),
-                isiDummy(),
-                isiDummy(),
-                isiDummy(),
-                isiDummy(),
-                isiDummy(),
-                isiDummy(),
               ],
             ),
           );

@@ -123,7 +123,7 @@ class _PercakapanPageState extends State<PercakapanPage> {
                           children: [
                             Container(
                               padding: const EdgeInsets.all(10),
-                              constraints: const BoxConstraints(maxWidth: 300),
+                              constraints: const BoxConstraints(maxWidth: 240),
                               decoration: BoxDecoration(
                                 color: const Color.fromRGBO(253, 205, 136, 1),
                                 borderRadius: BorderRadius.circular(10),
@@ -166,7 +166,7 @@ class _PercakapanPageState extends State<PercakapanPage> {
                           children: [
                             Container(
                               padding: const EdgeInsets.all(10),
-                              constraints: const BoxConstraints(maxWidth: 300),
+                              constraints: const BoxConstraints(maxWidth: 240),
                               decoration: BoxDecoration(
                                 color: Colors.black26,
                                 borderRadius: BorderRadius.circular(10),
