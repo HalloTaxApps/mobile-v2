@@ -18,7 +18,7 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
       backgroundColor: mainColor,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
-        height: 60,
+        height: 50,
         child: FittedBox(
           child: FloatingActionButton.extended(
             onPressed: () {
@@ -219,7 +219,7 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
       margin: index == 0
           ? const EdgeInsets.symmetric(horizontal: 20)
           : const EdgeInsets.only(right: 10),
-      width: 350,
+      width: 300,
       decoration: BoxDecoration(
         color: Colors.black26,
         borderRadius: BorderRadius.circular(20),

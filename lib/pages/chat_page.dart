@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/pages/statuschat_page.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -217,6 +218,11 @@ class _ChatPageState extends State<ChatPage> {
                                 //     ),
                                 //   ),
                                 // );
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const StatusChatPage()));
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: mainColor,

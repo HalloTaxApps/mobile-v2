@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/pages/chat_page.dart';
+import 'package:hallotaxv2/pages/edukasi_page.dart';
 import 'package:hallotaxv2/pages/iklan_page.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
 
@@ -202,7 +203,13 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EdukasiPage()));
+                              },
                               child: Text(
                                 'Selengkapnya',
                                 style: TextStyle(

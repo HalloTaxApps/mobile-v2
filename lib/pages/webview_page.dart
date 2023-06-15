@@ -66,46 +66,29 @@ class _WebviewPageState extends State<WebviewPage> {
               const SizedBox(
                 height: 30,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          widget.judul,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: mainFont,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            fontSize: 20,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                      size: 24,
                     ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                      ],
+                  ),
+                  Text(
+                    widget.judul,
+                    style: TextStyle(
+                      fontFamily: mainFont,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      fontSize: 16,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
+                  ),
+                ],
               ),
               Expanded(
                 child: Container(
