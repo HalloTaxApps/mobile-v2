@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/pages/berita_page.dart';
 import 'package:hallotaxv2/pages/chat_page.dart';
 import 'package:hallotaxv2/pages/edukasi_page.dart';
 import 'package:hallotaxv2/pages/iklan_page.dart';
+import 'package:hallotaxv2/pages/kontenedukasi_page.dart';
+import 'package:hallotaxv2/pages/konteniklan_page.dart';
+import 'package:hallotaxv2/pages/profil_page.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
+import 'package:hallotaxv2/pages/webview_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -53,7 +58,12 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProfilPage()));
+                      },
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
                       child: const CircleAvatar(
@@ -171,12 +181,21 @@ class HomePage extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                             itemCount: 5,
                             itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.all(5),
-                                width: 250,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black12,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const KontenIklanPage()));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  width: 250,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.black12,
+                                  ),
                                 ),
                               );
                             },
@@ -232,12 +251,21 @@ class HomePage extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             itemCount: 5,
                             itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.all(5),
-                                width: 150,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black12,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const KontenEdukasiPage()));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.black12,
+                                  ),
                                 ),
                               );
                             },
@@ -264,7 +292,13 @@ class HomePage extends StatelessWidget {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BeritaPage()));
+                              },
                               child: Text(
                                 'Selengkapnya',
                                 style: TextStyle(
@@ -287,12 +321,22 @@ class HomePage extends StatelessWidget {
                             physics: const BouncingScrollPhysics(),
                             itemCount: 5,
                             itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.all(5),
-                                width: 250,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black12,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WebviewPage(
+                                              judul: 'Berita $index',
+                                              url: '')));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  width: 250,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.black12,
+                                  ),
                                 ),
                               );
                             },

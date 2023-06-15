@@ -28,14 +28,15 @@ class _WebviewPageState extends State<WebviewPage> {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith(widget.url)) {
+            if (request.url.startsWith('https://grahaoffice.com/')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(
+          widget.url == '' ? 'https://grahaoffice.com/' : widget.url));
   }
 
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);

@@ -46,7 +46,7 @@ class _EdukasiPageState extends State<EdukasiPage> {
                       child: SizedBox(
                         width: double.infinity,
                         child: Text(
-                          'Cari Tahhu Seputar Pajak',
+                          'Cari Tahu Seputar Pajak',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: mainFont,
