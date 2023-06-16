@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/percakapan_page.dart';
@@ -15,28 +16,81 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
   final String mainFont = 'Nunito';
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future(() {
-        return;
-      }),
-      builder: (context, snapshot) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.user.uid)
+          .collection('messages')
+          .snapshots(),
+      builder: (context, AsyncSnapshot snapshot) {
+        var count = 0;
         if (snapshot.hasData) {
-          return containerListTile();
+          if (snapshot.data.docs.isEmpty) {
+            return noData();
+          }
+          for (var i = 0; i < snapshot.data.docs.length; i++) {
+            if (snapshot.data.docs[i]['status'] == 'on') {
+              count++;
+            }
+          }
+          if (count == 0) {
+            return noData();
+          } else {
+            return ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  var friendId = snapshot.data!.docs[index]['receiverId'];
+                  var lastMsg = snapshot.data!.docs[index]['last_msg'];
+                  var msgStatus = snapshot.data!.docs[index]['status'];
+                  var msgType = snapshot.data!.docs[index]['type'];
+                  var msgId = snapshot.data!.docs[index].id;
+                  return msgStatus == 'on'
+                      ? FutureBuilder(
+                          future: FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(friendId)
+                              .get(),
+                          builder: (context, AsyncSnapshot asyncSnapshot) {
+                            if (asyncSnapshot.hasData) {
+                              var friend = asyncSnapshot.data;
+                              return friend['role'] == 'Consultant'
+                                  ? containerListTile(
+                                      friend['name'],
+                                      lastMsg,
+                                      friend['image'],
+                                      friend,
+                                      msgType,
+                                      msgId,
+                                    )
+                                  : const SizedBox();
+                            }
+                            return const LinearProgressIndicator(
+                              color: Colors.transparent,
+                              backgroundColor: Colors.transparent,
+                              minHeight: 1,
+                            );
+                          },
+                        )
+                      : const SizedBox();
+                });
+          }
         } else {
-          return Center(
-            child: Column(
-              children: [
-                containerListTile(),
-                containerListTile(),
-              ],
-            ),
-          );
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
   }
 
-  Widget containerListTile() {
+  Widget containerListTile(
+    String nama,
+    String lastMsg,
+    String imageUrl,
+    var receiver,
+    var msgType,
+    var msgId,
+  ) {
     return Container(
       height: 80,
       decoration: const BoxDecoration(
@@ -50,28 +104,29 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
       child: Center(
         child: ListTile(
           contentPadding: const EdgeInsets.all(0),
-          leading: const CircleAvatar(
+          leading: CircleAvatar(
             radius: 36,
-            backgroundColor: Colors.black12,
+            backgroundImage: NetworkImage(imageUrl),
           ),
           title: Text(
-            'Muhammad Nur Faiz',
+            nama,
             style: TextStyle(
               fontFamily: mainFont,
               fontSize: 16,
               overflow: TextOverflow.ellipsis,
+              fontWeight: FontWeight.w700,
             ),
           ),
           subtitle: Text(
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, error.',
+            lastMsg,
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 12,
+              fontSize: 14,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
                 '08:37',
@@ -106,7 +161,11 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PercakapanPage(
+                          friend: receiver,
                           user: widget.user,
+                          msgType: msgType,
+                          isDone: false,
+                          msgId: msgId,
                         )));
           },
         ),
@@ -127,7 +186,7 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
           height: 10,
         ),
         Text(
-          'Data Berlangsung Kosong',
+          'Data Kosong',
           style: TextStyle(
             color: Colors.black38,
             fontFamily: 'Nunito',

@@ -64,15 +64,16 @@ class _ConsultantPageState extends State<ConsultantPage> {
                       },
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(
-                            'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c'),
+                          widget.user.image,
+                        ),
                       ),
                     ),
                     Expanded(
                       child: Text(
-                        'Hi, Nur Faiz',
+                        'Halo, ${widget.user.name}',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: mainFont,

@@ -95,6 +95,7 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => PercakapanPage(
+                          friend: 'receiver',
                           user: widget.user,
                         )));
           },

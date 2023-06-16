@@ -1,9 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 
 class PercakapanPage extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
+  final friend;
   final UserModel user;
-  const PercakapanPage({super.key, required this.user});
+  final bool isDone;
+  final String msgType;
+  final String msgId;
+  const PercakapanPage({
+    super.key,
+    required this.friend,
+    this.isDone = false,
+    required this.user,
+    this.msgType = '',
+    this.msgId = '',
+  });
 
   @override
   State<PercakapanPage> createState() => _PercakapanPageState();
@@ -12,10 +25,8 @@ class PercakapanPage extends StatefulWidget {
 class _PercakapanPageState extends State<PercakapanPage> {
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
-  bool isDone = false;
+  late bool isDone = widget.isDone;
   final TextEditingController controller = TextEditingController();
-  late List<String> status = ['Anonymous', 'Faiz'];
-  late String dropDownStatus = status.first;
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +67,23 @@ class _PercakapanPageState extends State<PercakapanPage> {
                         size: 30,
                       ),
                     ),
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 21,
-                      backgroundColor: Colors.grey,
+                      backgroundImage: NetworkImage(widget.msgType ==
+                                  'Anonymous' &&
+                              widget.friend['role'] == 'Customer'
+                          ? 'https://cdn-icons-png.flaticon.com/512/180/180691.png'
+                          : widget.friend['image']),
                     ),
                     const SizedBox(
                       width: 20,
                     ),
                     Expanded(
                       child: Text(
-                        'Nur Faiz',
+                        widget.msgType == 'Anonymous' &&
+                                widget.friend['role'] == 'Customer'
+                            ? 'Anonymous'
+                            : widget.friend['name'],
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontFamily: mainFont,
@@ -93,126 +111,46 @@ class _PercakapanPageState extends State<PercakapanPage> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.black12,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                'Yesterday',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontFamily: mainFont,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              constraints: const BoxConstraints(maxWidth: 240),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(253, 205, 136, 1),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Halo Zayang, kamu kenapa? sini cerita sama aku',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: mainFont,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.clip,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      '07:00',
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                        fontFamily: mainFont,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(10),
-                              constraints: const BoxConstraints(maxWidth: 240),
-                              decoration: BoxDecoration(
-                                color: Colors.black26,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Halo Zayang, kamu kenapa? sini cerita sama aku',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: mainFont,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.clip,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: Text(
-                                      '07:00',
-                                      style: TextStyle(
-                                        color: Colors.black38,
-                                        fontFamily: mainFont,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(widget.user.uid)
+                            .collection('messages')
+                            .doc(widget.msgId)
+                            .collection('chats')
+                            .orderBy('date', descending: true)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            if (snapshot.data.docs.length < 1) {
+                              return const Center(
+                                child: Text('No Messages'),
+                              );
+                            }
+                            return ListView.builder(
+                              itemCount: snapshot.data.docs.length,
+                              reverse: true,
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                bool isMe = snapshot.data.docs[index]
+                                        ['senderId'] ==
+                                    widget.user.uid;
+                                return singleMessage(
+                                  isMe,
+                                  snapshot.data.docs[index]['message'],
+                                );
+                              },
+                            );
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }),
                   ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(top: 5),
+                padding: const EdgeInsets.only(top: 20),
                 decoration: const BoxDecoration(color: Colors.white),
                 child: isDone ? isDoneFunction() : customTextfield(),
               ),
@@ -220,6 +158,72 @@ class _PercakapanPageState extends State<PercakapanPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Row singleGroupMessages() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            'Yesterday',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: mainFont,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row singleMessage(bool isMe, String message) {
+    return Row(
+      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          constraints: const BoxConstraints(maxWidth: 240),
+          decoration: BoxDecoration(
+            color:
+                isMe ? const Color.fromRGBO(253, 205, 136, 1) : Colors.black12,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                message,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: mainFont,
+                  fontSize: 16,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(
+                '07:00',
+                style: TextStyle(
+                  color: Colors.black38,
+                  fontFamily: mainFont,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 
@@ -281,7 +285,53 @@ class _PercakapanPageState extends State<PercakapanPage> {
               borderRadius: BorderRadius.circular(40),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                String message = controller.text;
+                controller.clear();
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.user.uid)
+                    .collection('messages')
+                    .doc(widget.msgId)
+                    .collection('chats')
+                    .add({
+                  'senderId': widget.user.uid,
+                  'receiverId': widget.friend['uid'],
+                  'message': message,
+                  'date': DateTime.now(),
+                }).then((value) {
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(widget.user.uid)
+                      .collection('messages')
+                      .doc(widget.msgId)
+                      .update({
+                    'last_msg': message,
+                  });
+                });
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.friend['uid'])
+                    .collection('messages')
+                    .doc(widget.msgId)
+                    .collection('chats')
+                    .add({
+                  'senderId': widget.user.uid,
+                  'receiverId': widget.friend['uid'],
+                  'message': message,
+                  'type': 'text',
+                  'date': DateTime.now(),
+                }).then((value) {
+                  FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(widget.friend['uid'])
+                      .collection('messages')
+                      .doc(widget.msgId)
+                      .update({
+                    'last_msg': message,
+                  });
+                });
+              },
               icon: Icon(
                 Icons.send,
                 color: mainColor.withOpacity(0.75),
