@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 
 class BaruPage extends StatefulWidget {
-  const BaruPage({super.key});
+  final UserModel user;
+  const BaruPage({super.key, required this.user});
 
   @override
   State<BaruPage> createState() => _BaruPageState();

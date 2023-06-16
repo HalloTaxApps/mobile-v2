@@ -36,14 +36,14 @@ class _BaruConsultantState extends State<BaruConsultant> {
         child: ListTile(
           contentPadding: const EdgeInsets.all(0),
           leading: const CircleAvatar(
-            radius: 40,
+            radius: 36,
             backgroundColor: Colors.black12,
           ),
           title: Text(
             'Muhammad Nur Faiz',
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 18,
+              fontSize: 16,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -51,7 +51,7 @@ class _BaruConsultantState extends State<BaruConsultant> {
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, error.',
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 16,
+              fontSize: 12,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -63,11 +63,12 @@ class _BaruConsultantState extends State<BaruConsultant> {
                 style: TextStyle(
                   fontFamily: mainFont,
                   color: Colors.black38,
+                  fontSize: 10,
                 ),
               ),
               Container(
-                width: 25,
-                height: 25,
+                width: 22,
+                height: 22,
                 decoration: BoxDecoration(
                   color: mainColor,
                   borderRadius: BorderRadius.circular(20),
@@ -78,6 +79,7 @@ class _BaruConsultantState extends State<BaruConsultant> {
                     style: TextStyle(
                       fontFamily: mainFont,
                       color: Colors.black38,
+                      fontSize: 10,
                     ),
                   ),
                 ),

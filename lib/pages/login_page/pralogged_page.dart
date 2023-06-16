@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/consultant_page.dart';
 
 import '../home_page.dart';
 
 class PraloggedPage extends StatefulWidget {
-  const PraloggedPage({super.key});
+  final UserModel user;
+  const PraloggedPage({super.key, required this.user});
 
   @override
   State<PraloggedPage> createState() => _PraloggedPageState();
@@ -21,12 +23,11 @@ class _PraloggedPageState extends State<PraloggedPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: CircleAvatar(
               radius: 26,
-              backgroundImage: NetworkImage(
-                  'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c'),
+              backgroundImage: NetworkImage(widget.user.image),
             ),
           ),
           const SizedBox(
@@ -35,7 +36,7 @@ class _PraloggedPageState extends State<PraloggedPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Text(
-              'Halo, Muhammad Nur Faiz',
+              widget.user.name,
               maxLines: 1,
               style: TextStyle(
                 fontFamily: mainFont,
@@ -93,7 +94,13 @@ class _PraloggedPageState extends State<PraloggedPage> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ConsultantPage()));
+                          builder: (context) => widget.user.role == 'Customer'
+                              ? HomePage(
+                                  user: widget.user,
+                                )
+                              : ConsultantPage(
+                                  user: widget.user,
+                                )));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: mainColor,

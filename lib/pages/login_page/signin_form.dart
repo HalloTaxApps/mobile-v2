@@ -1,18 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class SigninForm extends StatelessWidget {
+import '../login_page.dart';
+
+class SigninForm extends StatefulWidget {
   const SigninForm({super.key});
 
   @override
+  State<SigninForm> createState() => _SigninFormState();
+}
+
+class _SigninFormState extends State<SigninForm> {
+  String mainFont = 'Nunito';
+  Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
+  TextEditingController namaController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController hpController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+  TextEditingController roleController =
+      TextEditingController(text: 'Customer');
+  GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  @override
   Widget build(BuildContext context) {
-    String mainFont = 'Nunito';
-    Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
-    TextEditingController namaController = TextEditingController(text: '');
-    TextEditingController emailController = TextEditingController(text: '');
-    TextEditingController hpController = TextEditingController(text: '');
-    TextEditingController passwordController = TextEditingController(text: '');
-    TextEditingController roleController =
-        TextEditingController(text: 'Customer');
     return Scaffold(
       body: ListView(
         children: [
@@ -147,7 +160,8 @@ class SigninForm extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        // await googleSigninFunction();
+                        await createEmailFunction(
+                            namaController.text, roleController.text);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: mainColor,
@@ -182,7 +196,7 @@ class SigninForm extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        // await googleSigninFunction();
+                        await googleSigninFunction();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlue,
@@ -259,4 +273,65 @@ class SigninForm extends StatelessWidget {
           ),
         ),
       );
+
+  Future googleSigninFunction() async {
+    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
+      return;
+    }
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    DocumentSnapshot userExist =
+        await firestore.collection('users').doc(userCredential.user!.uid).get();
+
+    if (userExist.exists) {
+      // print("User already exist in database");
+    } else {
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': userCredential.user!.email,
+        'name': userCredential.user!.displayName,
+        'image': userCredential.user!.photoURL,
+        'uid': userCredential.user!.uid,
+        'date': DateTime.now(),
+        'role': 'Customer'
+      });
+    }
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false);
+  }
+
+  Future createEmailFunction(String userName, String userRole) async {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+
+    DocumentSnapshot userExist =
+        await firestore.collection('users').doc(userCredential.user!.uid).get();
+
+    if (userExist.exists) {
+      // print("User already exist in database");
+    } else {
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': userCredential.user!.email,
+        'name': userName,
+        'image':
+            'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c',
+        'uid': userCredential.user!.uid,
+        'date': DateTime.now(),
+        'role': userRole,
+      });
+    }
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false);
+  }
 }

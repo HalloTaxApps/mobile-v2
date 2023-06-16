@@ -1,15 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hallotaxv2/pages/login_page.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    String mainFont = 'Nunito';
-    Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
-    TextEditingController emailController = TextEditingController(text: '');
-    TextEditingController passwordController = TextEditingController(text: '');
+  State<LoginForm> createState() => _LoginFormState();
+}
 
+class _LoginFormState extends State<LoginForm> {
+  String mainFont = 'Nunito';
+  Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
+
+  GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
         children: [
@@ -97,7 +109,7 @@ class LoginForm extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        // await googleSigninFunction();
+                        await signinEmailFunction();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: mainColor,
@@ -132,7 +144,7 @@ class LoginForm extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        // await googleSigninFunction();
+                        await googleSigninFunction();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.lightBlue,
@@ -205,4 +217,64 @@ class LoginForm extends StatelessWidget {
           ),
         ),
       );
+
+  Future googleSigninFunction() async {
+    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser == null) {
+      return;
+    }
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    DocumentSnapshot userExist =
+        await firestore.collection('users').doc(userCredential.user!.uid).get();
+
+    if (userExist.exists) {
+      // print("User already exist in database");
+    } else {
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': userCredential.user!.email,
+        'name': userCredential.user!.displayName,
+        'image': userCredential.user!.photoURL,
+        'uid': userCredential.user!.uid,
+        'date': DateTime.now(),
+        'role': 'Customer'
+      });
+    }
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false);
+  }
+
+  Future signinEmailFunction() async {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
+
+    DocumentSnapshot userExist =
+        await firestore.collection('users').doc(userCredential.user!.uid).get();
+
+    if (userExist.exists) {
+      // print("User already exist in database");
+    } else {
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': userCredential.user!.email,
+        'name': 'User',
+        'image': 'https://cdn-icons-png.flaticon.com/512/180/180691.png',
+        'uid': userCredential.user!.uid,
+        'date': DateTime.now(),
+        'role': 'Customer'
+      });
+    }
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false);
+  }
 }

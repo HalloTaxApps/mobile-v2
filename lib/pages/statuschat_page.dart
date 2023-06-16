@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/chatstatus_page/baru_page.dart';
 import 'package:hallotaxv2/pages/chatstatus_page/berlangsung_page.dart';
 import 'package:hallotaxv2/pages/chatstatus_page/selesai_page.dart';
 
 class StatusChatPage extends StatefulWidget {
-  const StatusChatPage({super.key});
+  final UserModel user;
+  const StatusChatPage({super.key, required this.user});
 
   @override
   State<StatusChatPage> createState() => _StatusChatPageState();
@@ -17,7 +19,9 @@ class _StatusChatPageState extends State<StatusChatPage> {
   late bool isSelesai = false;
   final Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   final String mainFont = 'Nunito';
-  late Widget isiSection = const BerlangsungPage();
+  late Widget isiSection = BerlangsungPage(
+    user: widget.user,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +143,9 @@ class _StatusChatPageState extends State<StatusChatPage> {
                                   isBaru = false;
                                   isBerlangsung = true;
                                   isSelesai = false;
-                                  isiSection = const BerlangsungPage();
+                                  isiSection = BerlangsungPage(
+                                    user: widget.user,
+                                  );
                                 });
                               },
                               child: Stack(
@@ -174,7 +180,9 @@ class _StatusChatPageState extends State<StatusChatPage> {
                                   isBaru = true;
                                   isBerlangsung = false;
                                   isSelesai = false;
-                                  isiSection = const BaruPage();
+                                  isiSection = BaruPage(
+                                    user: widget.user,
+                                  );
                                 });
                               },
                               child: Text(
@@ -190,7 +198,9 @@ class _StatusChatPageState extends State<StatusChatPage> {
                                   isBaru = false;
                                   isBerlangsung = false;
                                   isSelesai = true;
-                                  isiSection = const SelesaiPage();
+                                  isiSection = SelesaiPage(
+                                    user: widget.user,
+                                  );
                                 });
                               },
                               child: Text(

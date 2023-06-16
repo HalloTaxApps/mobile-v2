@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 
 import '../percakapan_page.dart';
 
 class BerlangsungConsultant extends StatefulWidget {
-  const BerlangsungConsultant({super.key});
+  final UserModel user;
+  const BerlangsungConsultant({super.key, required this.user});
 
   @override
   State<BerlangsungConsultant> createState() => _BerlangsungConsultantState();
@@ -38,14 +40,14 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
         child: ListTile(
           contentPadding: const EdgeInsets.all(0),
           leading: const CircleAvatar(
-            radius: 40,
+            radius: 36,
             backgroundColor: Colors.black12,
           ),
           title: Text(
             'Muhammad Nur Faiz',
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 18,
+              fontSize: 16,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -53,7 +55,7 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, error.',
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 16,
+              fontSize: 12,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -65,11 +67,12 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
                 style: TextStyle(
                   fontFamily: mainFont,
                   color: Colors.black38,
+                  fontSize: 10,
                 ),
               ),
               Container(
-                width: 25,
-                height: 25,
+                width: 22,
+                height: 22,
                 decoration: BoxDecoration(
                   color: mainColor,
                   borderRadius: BorderRadius.circular(20),
@@ -80,6 +83,7 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
                     style: TextStyle(
                       fontFamily: mainFont,
                       color: Colors.black38,
+                      fontSize: 10,
                     ),
                   ),
                 ),
@@ -90,7 +94,9 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PercakapanPage()));
+                    builder: (context) => PercakapanPage(
+                          user: widget.user,
+                        )));
           },
         ),
       ),

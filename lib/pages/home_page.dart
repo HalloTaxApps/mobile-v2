@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/berita_page.dart';
 import 'package:hallotaxv2/pages/chat_page.dart';
 import 'package:hallotaxv2/pages/edukasi_page.dart';
@@ -10,7 +11,8 @@ import 'package:hallotaxv2/pages/statuschat_page.dart';
 import 'package:hallotaxv2/pages/webview_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final UserModel user;
+  const HomePage({super.key, required this.user});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,8 +28,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const ChatPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                        user: widget.user,
+                      )));
         },
         backgroundColor: mainColor,
         label: Text(
@@ -68,14 +74,15 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ProfilPage()));
+                                builder: (context) => ProfilPage(
+                                      user: widget.user,
+                                    )));
                       },
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
-                      child: const CircleAvatar(
+                      child: CircleAvatar(
                         radius: 20,
-                        backgroundImage: NetworkImage(
-                            'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c'),
+                        backgroundImage: NetworkImage(widget.user.image),
                       ),
                     ),
                     InkWell(
@@ -83,7 +90,9 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const StatusChatPage()));
+                                builder: (context) => StatusChatPage(
+                                      user: widget.user,
+                                    )));
                       },
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
@@ -114,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Halo, Nur Faiz',
+                    'Halo, ${widget.user.name}',
                     style: TextStyle(
                       fontFamily: mainFont,
                       fontWeight: FontWeight.w700,

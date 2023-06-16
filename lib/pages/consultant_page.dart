@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/consultant_page/baru_consultant.dart';
 import 'package:hallotaxv2/pages/profil_page.dart';
 import 'consultant_page/berlangsung_consultant.dart';
 
 class ConsultantPage extends StatefulWidget {
+  final UserModel user;
   const ConsultantPage({
     super.key,
+    required this.user,
   });
 
   @override
@@ -55,7 +58,9 @@ class _ConsultantPageState extends State<ConsultantPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ProfilPage()));
+                                builder: (context) => ProfilPage(
+                                      user: widget.user,
+                                    )));
                       },
                       splashColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
@@ -162,7 +167,9 @@ class _ConsultantPageState extends State<ConsultantPage> {
         setState(() {
           isiSection = const BaruConsultant();
           if (isBaru) {
-            isiSection = const BerlangsungConsultant();
+            isiSection = BerlangsungConsultant(
+              user: widget.user,
+            );
             icon = Icons.new_label_outlined;
             isBaru = false;
             isBerlangsung = true;

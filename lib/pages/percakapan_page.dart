@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 
 class PercakapanPage extends StatefulWidget {
-  const PercakapanPage({super.key});
+  final UserModel user;
+  const PercakapanPage({super.key, required this.user});
 
   @override
   State<PercakapanPage> createState() => _PercakapanPageState();

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  final UserModel user;
+  const ChatPage({super.key, required this.user});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -12,7 +14,7 @@ class _ChatPageState extends State<ChatPage> {
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
   final TextEditingController controller = TextEditingController();
-  late List<String> status = ['Anonymous', 'Faiz'];
+  late List<String> status = ['Anonymous', widget.user.name];
   late String dropDownStatus = status.first;
 
   @override
@@ -221,8 +223,9 @@ class _ChatPageState extends State<ChatPage> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const StatusChatPage()));
+                                        builder: (context) => StatusChatPage(
+                                              user: widget.user,
+                                            )));
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: mainColor,

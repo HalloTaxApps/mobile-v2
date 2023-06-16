@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/percakapan_page.dart';
 
 class BerlangsungPage extends StatefulWidget {
-  const BerlangsungPage({super.key});
+  final UserModel user;
+  const BerlangsungPage({super.key, required this.user});
 
   @override
   State<BerlangsungPage> createState() => _BerlangsungPageState();
@@ -49,14 +51,14 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
         child: ListTile(
           contentPadding: const EdgeInsets.all(0),
           leading: const CircleAvatar(
-            radius: 40,
+            radius: 36,
             backgroundColor: Colors.black12,
           ),
           title: Text(
             'Muhammad Nur Faiz',
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 18,
+              fontSize: 16,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -64,7 +66,7 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
             'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, error.',
             style: TextStyle(
               fontFamily: mainFont,
-              fontSize: 16,
+              fontSize: 12,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -76,11 +78,12 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
                 style: TextStyle(
                   fontFamily: mainFont,
                   color: Colors.black38,
+                  fontSize: 10,
                 ),
               ),
               Container(
-                width: 25,
-                height: 25,
+                width: 22,
+                height: 22,
                 decoration: BoxDecoration(
                   color: mainColor,
                   borderRadius: BorderRadius.circular(20),
@@ -91,6 +94,7 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
                     style: TextStyle(
                       fontFamily: mainFont,
                       color: Colors.black38,
+                      fontSize: 10,
                     ),
                   ),
                 ),
@@ -101,7 +105,9 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PercakapanPage()));
+                    builder: (context) => PercakapanPage(
+                          user: widget.user,
+                        )));
           },
         ),
       ),

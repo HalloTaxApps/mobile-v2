@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 
 class SelesaiPage extends StatefulWidget {
-  const SelesaiPage({super.key});
+  final UserModel user;
+  const SelesaiPage({super.key, required this.user});
 
   @override
   State<SelesaiPage> createState() => _SelesaiPageState();

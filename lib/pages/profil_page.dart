@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/splash_screen.dart';
 import 'package:quickalert/quickalert.dart';
 
 class ProfilPage extends StatefulWidget {
-  const ProfilPage({super.key});
+  final UserModel user;
+  const ProfilPage({super.key, required this.user});
 
   @override
   State<ProfilPage> createState() => _ProfilPageState();
@@ -73,6 +77,9 @@ class _ProfilPageState extends State<ProfilPage> {
                       color: Colors.white,
                     ),
                     onPressed: () {
+                      GoogleSignIn().signOut();
+                      FirebaseAuth.instance.signOut();
+
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
                               builder: (context) => const SplashScreen()),
@@ -101,7 +108,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           height: 100,
                         ),
                         Text(
-                          'Muhammad Nur Faiz',
+                          widget.user.name,
                           style: TextStyle(
                             fontFamily: mainFont,
                             fontWeight: FontWeight.w700,
@@ -130,7 +137,9 @@ class _ProfilPageState extends State<ProfilPage> {
                                 ),
                               ),
                               customTextField(
-                                  controller: namaController, name: 'Nama'),
+                                controller: namaController,
+                                name: widget.user.name,
+                              ),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -146,7 +155,9 @@ class _ProfilPageState extends State<ProfilPage> {
                                 ),
                               ),
                               customTextField(
-                                  controller: emailController, name: 'Email'),
+                                controller: emailController,
+                                name: widget.user.email,
+                              ),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -252,14 +263,14 @@ class _ProfilPageState extends State<ProfilPage> {
           Align(
             alignment: Alignment.topCenter,
             child: Column(
-              children: const [
-                SizedBox(
+              children: [
+                const SizedBox(
                   height: 110,
                 ),
                 CircleAvatar(
                   radius: 70,
                   backgroundImage: NetworkImage(
-                    'https://lh3.googleusercontent.com/a/AGNmyxa-ldtJWPUt5-oFDoxjjYTvubJOYk3fKqoyIWG5HgM=s96-c',
+                    widget.user.image,
                   ),
                 ),
               ],
@@ -270,11 +281,12 @@ class _ProfilPageState extends State<ProfilPage> {
     );
   }
 
-  TextField customTextField(
-          {bool isObscured = false,
-          bool readOnly = false,
-          required TextEditingController controller,
-          required String name}) =>
+  TextField customTextField({
+    bool isObscured = false,
+    bool readOnly = false,
+    required TextEditingController controller,
+    required String name,
+  }) =>
       TextField(
         controller: controller,
         obscureText: isObscured,
@@ -284,10 +296,10 @@ class _ProfilPageState extends State<ProfilPage> {
           fillColor: controller.text == ''
               ? Colors.transparent
               : Colors.grey.withOpacity(0.5),
-          hintText: controller.text == '' ? 'Masukkan $name' : controller.text,
+          hintText: name,
           hintStyle: const TextStyle(
-            fontSize: 12,
-            color: Colors.black38,
+            fontSize: 16,
+            color: Colors.black,
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
