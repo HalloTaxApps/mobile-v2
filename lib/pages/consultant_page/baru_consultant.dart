@@ -1,36 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:hallotaxv2/pages/percakapan_page.dart';
 
-class BerlangsungPage extends StatefulWidget {
-  const BerlangsungPage({super.key});
+class BaruConsultant extends StatefulWidget {
+  const BaruConsultant({super.key});
 
   @override
-  State<BerlangsungPage> createState() => _BerlangsungPageState();
+  State<BaruConsultant> createState() => _BaruConsultantState();
 }
 
-class _BerlangsungPageState extends State<BerlangsungPage> {
+class _BaruConsultantState extends State<BaruConsultant> {
   final Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   final String mainFont = 'Nunito';
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future(() {
-        return;
-      }),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return containerListTile();
-        } else {
-          return Center(
-            child: Column(
-              children: [
-                containerListTile(),
-                containerListTile(),
-              ],
-            ),
-          );
-        }
-      },
+    return Column(
+      children: [
+        containerListTile(),
+        containerListTile(),
+      ],
     );
   }
 
@@ -97,38 +84,48 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
               )
             ],
           ),
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const PercakapanPage()));
-          },
-        ),
-      ),
-    );
-  }
-
-  Column noData() {
-    return Column(
-      children: const [
-        SizedBox(
-          height: 100,
-        ),
-        Image(
-          image: AssetImage('assets/images/nodata.png'),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Data Berlangsung Kosong',
-          style: TextStyle(
-            color: Colors.black38,
-            fontFamily: 'Nunito',
-            fontSize: 16,
+          onTap: () => showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Text(
+                'Ambil konsultasi ini?',
+                style: TextStyle(
+                  fontFamily: mainFont,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: Text(
+                    'Cancel',
+                    style: TextStyle(
+                      fontFamily: mainFont,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'OK');
+                  },
+                  child: Text(
+                    'OK',
+                    style: TextStyle(
+                      fontFamily: mainFont,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

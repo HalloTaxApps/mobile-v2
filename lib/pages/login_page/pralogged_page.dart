@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/pages/consultant_page.dart';
 
 import '../home_page.dart';
 
@@ -92,7 +93,7 @@ class _PraloggedPageState extends State<PraloggedPage> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                          builder: (context) => ConsultantPage()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: mainColor,

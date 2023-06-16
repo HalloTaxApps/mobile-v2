@@ -1,36 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:hallotaxv2/pages/percakapan_page.dart';
 
-class BerlangsungPage extends StatefulWidget {
-  const BerlangsungPage({super.key});
+import '../percakapan_page.dart';
+
+class BerlangsungConsultant extends StatefulWidget {
+  const BerlangsungConsultant({super.key});
 
   @override
-  State<BerlangsungPage> createState() => _BerlangsungPageState();
+  State<BerlangsungConsultant> createState() => _BerlangsungConsultantState();
 }
 
-class _BerlangsungPageState extends State<BerlangsungPage> {
+class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
   final Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   final String mainFont = 'Nunito';
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Future(() {
-        return;
-      }),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return containerListTile();
-        } else {
-          return Center(
-            child: Column(
-              children: [
-                containerListTile(),
-                containerListTile(),
-              ],
-            ),
-          );
-        }
-      },
+    return Column(
+      children: [
+        containerListTile(),
+        containerListTile(),
+      ],
     );
   }
 
@@ -105,30 +94,6 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
           },
         ),
       ),
-    );
-  }
-
-  Column noData() {
-    return Column(
-      children: const [
-        SizedBox(
-          height: 100,
-        ),
-        Image(
-          image: AssetImage('assets/images/nodata.png'),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'Data Berlangsung Kosong',
-          style: TextStyle(
-            color: Colors.black38,
-            fontFamily: 'Nunito',
-            fontSize: 16,
-          ),
-        ),
-      ],
     );
   }
 }
