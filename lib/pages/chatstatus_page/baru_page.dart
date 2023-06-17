@@ -82,7 +82,7 @@ class _BaruPageState extends State<BaruPage> {
         child: ListTile(
           contentPadding: const EdgeInsets.all(0),
           leading: CircleAvatar(
-            radius: 36,
+            radius: 24,
             backgroundImage: NetworkImage(imageUrl),
           ),
           title: Text(
@@ -103,7 +103,7 @@ class _BaruPageState extends State<BaruPage> {
             ),
           ),
           trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 '08:37',
@@ -113,24 +113,6 @@ class _BaruPageState extends State<BaruPage> {
                   fontSize: 10,
                 ),
               ),
-              Container(
-                width: 22,
-                height: 22,
-                decoration: BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    '3',
-                    style: TextStyle(
-                      fontFamily: mainFont,
-                      color: Colors.black38,
-                      fontSize: 10,
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),

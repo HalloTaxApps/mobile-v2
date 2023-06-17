@@ -24,6 +24,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         children: [
           Center(
             child: Padding(
@@ -147,7 +148,7 @@ class _LoginFormState extends State<LoginForm> {
                         await googleSigninFunction();
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.lightBlue,
+                        backgroundColor: Colors.grey.withOpacity(0.2),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

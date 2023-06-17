@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
@@ -196,30 +197,20 @@ class _ChatPageState extends State<ChatPage> {
                             width: 100,
                             child: ElevatedButton(
                               onPressed: () async {
-                                // String message = controller.text;
-                                // controller.clear();
-                                // await FirebaseFirestore.instance
-                                //     .collection('users')
-                                //     .doc(widget.user.uid)
-                                //     .collection('messages')
-                                //     .add({
-                                //   'status': 'new',
-                                //   'type': widget.userType,
-                                //   'last_msg': message,
-                                //   'senderId': widget.user.uid,
-                                //   'receiverId': '',
-                                // });
-                                // // ignore: use_build_context_synchronously
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => StatusChatPage(
-                                //       userApi: widget.userApi,
-                                //       user: widget.user,
-                                //       newsApi: widget.newsApi,
-                                //     ),
-                                //   ),
-                                // );
+                                String message = controller.text;
+                                controller.clear();
+                                await FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(widget.user.uid)
+                                    .collection('messages')
+                                    .add({
+                                  'status': 'new',
+                                  'type': dropDownStatus,
+                                  'last_msg': message,
+                                  'senderId': widget.user.uid,
+                                  'receiverId': '',
+                                });
+                                // ignore: use_build_context_synchronously
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(

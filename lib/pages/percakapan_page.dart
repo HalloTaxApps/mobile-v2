@@ -359,6 +359,7 @@ class _PercakapanPageState extends State<PercakapanPage> {
             style: TextStyle(
               fontFamily: 'Nunito',
               color: Colors.black54,
+              fontSize: 12,
             ),
           ),
         ),
@@ -370,6 +371,7 @@ class _PercakapanPageState extends State<PercakapanPage> {
             style: TextStyle(
               fontFamily: 'Nunito',
               color: Colors.black54,
+              fontSize: 12,
             ),
           ),
         ),
