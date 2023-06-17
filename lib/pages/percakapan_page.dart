@@ -7,15 +7,17 @@ class PercakapanPage extends StatefulWidget {
   final friend;
   final UserModel user;
   final bool isDone;
-  final String msgType;
-  final String msgId;
+  final String? msgType;
+  final String? msgId;
+  final bool isConsultant;
   const PercakapanPage({
     super.key,
     required this.friend,
     this.isDone = false,
     required this.user,
-    this.msgType = '',
-    this.msgId = '',
+    this.msgType,
+    this.msgId,
+    this.isConsultant = false,
   });
 
   @override
@@ -94,6 +96,75 @@ class _PercakapanPageState extends State<PercakapanPage> {
                         ),
                       ),
                     ),
+                    widget.isConsultant
+                        ? IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: Text(
+                                    'Ambil konsultasi ini?',
+                                    style: TextStyle(
+                                      fontFamily: mainFont,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                          fontFamily: mainFont,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(widget.friend.id)
+                                            .collection('messages')
+                                            .doc(widget.msgId)
+                                            .update({
+                                          'status': 'done',
+                                        });
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(widget.user.uid)
+                                            .collection('messages')
+                                            .doc(widget.msgId)
+                                            .delete();
+                                        setState(() {
+                                          isDone = true;
+                                        });
+                                        Navigator.pop(context, 'OK');
+                                      },
+                                      child: Text(
+                                        'OK',
+                                        style: TextStyle(
+                                          fontFamily: mainFont,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.power_settings_new,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
               ),
