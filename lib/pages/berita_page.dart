@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/controllers/berita_controller.dart';
+import 'package:hallotaxv2/models/berita_model.dart';
 import 'package:hallotaxv2/pages/webview_page.dart';
 
 class BeritaPage extends StatefulWidget {
@@ -11,6 +13,31 @@ class BeritaPage extends StatefulWidget {
 class _BeritaPageState extends State<BeritaPage> {
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
+
+  List<BeritaModel> listBerita = [];
+  BeritaController beritaController = BeritaController();
+  String mitra = '';
+  String judul = '';
+  String imageUrl = '';
+  String deskripsi = '';
+  String url = '';
+
+  @override
+  void initState() {
+    getBerita();
+    super.initState();
+  }
+
+  getBerita() async {
+    listBerita = await beritaController.getBerita();
+    setState(() {
+      mitra = listBerita[0].mitra;
+      judul = listBerita[0].judul;
+      imageUrl = listBerita[0].imageUrl;
+      deskripsi = listBerita[0].deskripsi;
+      url = listBerita[0].url;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,18 +171,15 @@ class _BeritaPageState extends State<BeritaPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const WebviewPage(
-                                              judul: 'Ms. Puan on Speach',
-                                              url:
-                                                  'https://www.liputan6.com/tv/read/4972295/video-puan-maharani-hattrick-matikan-mikrofon-anggota-dewan-dalam-rapat-paripurna')));
+                                          builder: (context) => WebviewPage(
+                                              mitra: mitra, url: url)));
                                 },
                                 child: Container(
                                   height: 200,
                                   decoration: BoxDecoration(
                                     color: Colors.grey.withOpacity(0.5),
-                                    image: const DecorationImage(
-                                      image: NetworkImage(
-                                          'https://assets-studiohub.kompas.com/video2019/73f614858444241bddf143/26c5a38fce3e1024a73be40660c05eea/26c5a38fce3e1024a73be40660c05eea.jpg'),
+                                    image: DecorationImage(
+                                      image: NetworkImage(imageUrl),
                                       fit: BoxFit.cover,
                                     ),
                                     borderRadius: BorderRadius.circular(20),
@@ -188,7 +212,7 @@ class _BeritaPageState extends State<BeritaPage> {
                                             children: [
                                               Expanded(
                                                 child: Text(
-                                                  'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed, numquam?',
+                                                  judul,
                                                   style: TextStyle(
                                                     fontFamily: mainFont,
                                                     fontWeight: FontWeight.w700,
@@ -214,7 +238,7 @@ class _BeritaPageState extends State<BeritaPage> {
                                           Align(
                                             alignment: Alignment.topLeft,
                                             child: Text(
-                                              'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem ea, distinctio voluptate delectus cupiditate deserunt minus debitis quod sapiente nemo.',
+                                              deskripsi,
                                               maxLines: 2,
                                               style: TextStyle(
                                                 fontFamily: mainFont,
@@ -232,7 +256,14 @@ class _BeritaPageState extends State<BeritaPage> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              for (var i = 0; i < 5; i++) containerBerita(),
+                              for (var i = 1; i < listBerita.length; i++)
+                                containerBerita(
+                                  listBerita[i].mitra,
+                                  listBerita[i].judul,
+                                  listBerita[i].imageUrl,
+                                  listBerita[i].deskripsi,
+                                  listBerita[i].url,
+                                ),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -251,16 +282,19 @@ class _BeritaPageState extends State<BeritaPage> {
     );
   }
 
-  Widget containerBerita() {
+  Widget containerBerita(
+    String mitra,
+    String judul,
+    String imageUrl,
+    String deskripsi,
+    String url,
+  ) {
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => const WebviewPage(
-                    judul: 'Ms. Puan on Speach',
-                    url:
-                        'https://www.liputan6.com/tv/read/4972295/video-puan-maharani-hattrick-matikan-mikrofon-anggota-dewan-dalam-rapat-paripurna')));
+                builder: (context) => WebviewPage(mitra: mitra, url: url)));
       },
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -278,9 +312,8 @@ class _BeritaPageState extends State<BeritaPage> {
               width: 100,
               decoration: BoxDecoration(
                 color: Colors.grey.withOpacity(0.5),
-                image: const DecorationImage(
-                  image: NetworkImage(
-                      'https://assets-studiohub.kompas.com/video2019/73f614858444241bddf143/26c5a38fce3e1024a73be40660c05eea/26c5a38fce3e1024a73be40660c05eea.jpg'),
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(10),
@@ -294,7 +327,7 @@ class _BeritaPageState extends State<BeritaPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab voluptatem reiciendis aspernatur maiores similique impedit iste, eligendi ea! Accusamus, autem.',
+                    judul,
                     style: TextStyle(
                       fontFamily: mainFont,
                       fontWeight: FontWeight.w700,
@@ -311,7 +344,7 @@ class _BeritaPageState extends State<BeritaPage> {
                     ),
                   ),
                   Text(
-                    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti numquam blanditiis quod nostrum veritatis aut quidem dolores cum, et dolor odit autem sit. Natus quos modi laborum incidunt animi itaque eaque, error qui? Laudantium tempora sed repudiandae quae voluptas facilis!',
+                    deskripsi,
                     maxLines: 3,
                     textAlign: TextAlign.justify,
                     style: TextStyle(

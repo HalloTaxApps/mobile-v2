@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
 
 class KontenEdukasiPage extends StatelessWidget {
-  const KontenEdukasiPage({super.key});
+  final String judul;
+  final String deskripsi;
+  final String materi;
+  final String konten;
+  final String tipe;
+  const KontenEdukasiPage({
+    super.key,
+    this.judul = '',
+    this.deskripsi = '',
+    this.materi = '',
+    this.konten = '',
+    this.tipe = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +98,7 @@ class KontenEdukasiPage extends StatelessWidget {
                       physics: const BouncingScrollPhysics(),
                       children: [
                         Text(
-                          'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem, dolorem?',
+                          judul,
                           maxLines: 2,
                           style: TextStyle(
                             fontFamily: mainFont,
@@ -99,7 +111,7 @@ class KontenEdukasiPage extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, nobis eum officia delectus quidem similique tempore aliquam vel unde rerum non itaque autem, nisi voluptate corrupti explicabo quos consequatur tenetur sunt commodi quam excepturi reprehenderit architecto blanditiis. Alias enim nulla corporis eius tenetur aliquam dolor optio consectetur repellat, officia beatae?',
+                          deskripsi,
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontFamily: mainFont,
@@ -111,7 +123,7 @@ class KontenEdukasiPage extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem, dolorem?',
+                          materi,
                           maxLines: 2,
                           style: TextStyle(
                             fontFamily: mainFont,
@@ -124,32 +136,7 @@ class KontenEdukasiPage extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Exercitationem, dolorem?',
-                          maxLines: 2,
-                          style: TextStyle(
-                            fontFamily: mainFont,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, nobis eum officia delectus quidem similique tempore aliquam vel unde rerum non itaque autem, nisi voluptate corrupti explicabo quos consequatur tenetur sunt commodi quam excepturi reprehenderit architecto blanditiis. Alias enim nulla corporis eius tenetur aliquam dolor optio consectetur repellat, officia beatae?',
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontFamily: mainFont,
-                            color: Colors.black54,
-                            fontSize: 16,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Lorem ipsum, dolor sit amet consectetur adipisicing elit. At, nobis eum officia delectus quidem similique tempore aliquam vel unde rerum non itaque autem, nisi voluptate corrupti explicabo quos consequatur tenetur sunt commodi quam excepturi reprehenderit architecto blanditiis. Alias enim nulla corporis eius tenetur aliquam dolor optio consectetur repellat, officia beatae?',
+                          konten,
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontFamily: mainFont,

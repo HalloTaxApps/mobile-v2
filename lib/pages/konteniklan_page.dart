@@ -2,7 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:hallotaxv2/pages/webview_page.dart';
 
 class KontenIklanPage extends StatefulWidget {
-  const KontenIklanPage({super.key});
+  final String mitra;
+  final String judul;
+  final List<String> listImageUrl;
+  final String deskripsi;
+  final String info;
+  final String syarat;
+  final String url;
+  const KontenIklanPage({
+    super.key,
+    this.mitra = '',
+    this.judul = '',
+    this.listImageUrl = const [],
+    this.deskripsi = '',
+    this.info = '',
+    this.syarat = '',
+    this.url = '',
+  });
 
   @override
   State<KontenIklanPage> createState() => _KontenIklanPageState();
@@ -25,9 +41,9 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const WebviewPage(
-                            judul: 'Paket Sewa Office',
-                            url: 'https://grahaoffice.com/',
+                      builder: (context) => WebviewPage(
+                            mitra: widget.mitra,
+                            url: widget.url,
                           )));
             },
             backgroundColor: mainColor,
@@ -64,38 +80,30 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Stack(
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Text(
-                          'Sewa Virtual Office',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: mainFont,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            fontSize: 20,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                        size: 30,
                       ),
                     ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                            size: 30,
-                          ),
+                    Expanded(
+                      child: Text(
+                        widget.judul,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: mainFont,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                          fontSize: 20,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -120,9 +128,13 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
                         child: ListView.builder(
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: 5,
+                          itemCount: widget.listImageUrl.length,
                           itemBuilder: (context, index) {
-                            return containerGambar(context, index);
+                            if (widget.listImageUrl[index] != '') {
+                              return containerGambar(context, index,
+                                  widget.judul, widget.listImageUrl[index]);
+                            }
+                            return const SizedBox();
                           },
                         ),
                       ),
@@ -143,7 +155,7 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
                               height: 10,
                             ),
                             Text(
-                              'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae qui, inventore a nemo facilis, dignissimos quo, expedita laudantium doloribus cumque veniam quisquam minima? Vel aut exercitationem obcaecati iste, alias provident sit nostrum repellat laudantium accusamus molestiae corporis fuga rem praesentium quibusdam nesciunt eos aliquam beatae? Odit labore asperiores esse minus.',
+                              widget.deskripsi,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontFamily: mainFont,
@@ -167,7 +179,7 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
                               height: 10,
                             ),
                             Text(
-                              'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam dolorem sit doloribus vero autem eaque quisquam voluptatum inventore labore! Atque.',
+                              widget.info,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontFamily: mainFont,
@@ -191,7 +203,7 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
                               height: 10,
                             ),
                             Text(
-                              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea iusto nam ratione laboriosam tenetur nostrum quisquam quaerat blanditiis debitis esse architecto ullam asperiores sint culpa officia quod, omnis cum fugiat! Ipsa odit commodi architecto necessitatibus a neque laboriosam vitae molestias!',
+                              widget.syarat,
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontFamily: mainFont,
@@ -214,7 +226,8 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
     );
   }
 
-  Widget containerGambar(BuildContext context, index) {
+  Widget containerGambar(
+      BuildContext context, index, String judul, String image) {
     return Container(
       margin: index == 0
           ? const EdgeInsets.symmetric(horizontal: 20)
@@ -222,24 +235,28 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
       width: 300,
       decoration: BoxDecoration(
         color: Colors.black26,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: NetworkImage(image),
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Center(
-        child: SizedBox(
-          width: 100,
-          child: Text(
-            'Layanan Graha Office',
-            maxLines: 2,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: mainFont,
-              fontWeight: FontWeight.w700,
-              color: Colors.black45,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ),
+      // child: Center(
+      //   child: SizedBox(
+      //     width: 100,
+      //     child: Text(
+      //       judul,
+      //       maxLines: 2,
+      //       textAlign: TextAlign.center,
+      //       style: TextStyle(
+      //         fontFamily: mainFont,
+      //         fontWeight: FontWeight.w700,
+      //         color: Colors.black45,
+      //         fontSize: 16,
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

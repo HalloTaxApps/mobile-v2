@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/controllers/pralogin_controller.dart';
+import 'package:hallotaxv2/models/pralogin_model.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/consultant_page.dart';
 
@@ -16,6 +18,27 @@ class PraloggedPage extends StatefulWidget {
 class _PraloggedPageState extends State<PraloggedPage> {
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
+
+  List<PraloginModel> listPralogin = [];
+  PraloginController praloginController = PraloginController();
+  String judul = '';
+  String imageUrl = '';
+  String deskripsi = '';
+
+  @override
+  void initState() {
+    getPralogin();
+    super.initState();
+  }
+
+  getPralogin() async {
+    listPralogin = await praloginController.getPralogin();
+    setState(() {
+      judul = listPralogin[0].judul;
+      imageUrl = listPralogin[0].imageUrl;
+      deskripsi = listPralogin[0].deskripsi;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +99,7 @@ class _PraloggedPageState extends State<PraloggedPage> {
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: 3,
+                      itemCount: listPralogin.length,
                       itemBuilder: (context, index) {
                         return Container(
                           margin: index == 0
@@ -85,7 +108,12 @@ class _PraloggedPageState extends State<PraloggedPage> {
                           width: 300,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: mainColor, width: 2),
                             color: index % 2 == 0 ? mainColor : Colors.grey,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image:
+                                    NetworkImage(listPralogin[index].imageUrl)),
                           ),
                         );
                       },

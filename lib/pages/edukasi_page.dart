@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/controllers/edukasi_controller.dart';
+import 'package:hallotaxv2/models/edukasi_model.dart';
 import 'package:hallotaxv2/pages/kontenedukasi_page.dart';
 
 class EdukasiPage extends StatefulWidget {
@@ -11,6 +13,33 @@ class EdukasiPage extends StatefulWidget {
 class _EdukasiPageState extends State<EdukasiPage> {
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
+
+  List<EdukasiModel> listEdukasi = [];
+  EdukasiController edukasiController = EdukasiController();
+  String judul = '';
+  String imageUrl = '';
+  String deskripsi = '';
+  String materi = '';
+  String konten = '';
+  String tipe = '';
+
+  @override
+  void initState() {
+    getEdukasi();
+    super.initState();
+  }
+
+  getEdukasi() async {
+    listEdukasi = await edukasiController.getEdukasi();
+    setState(() {
+      judul = listEdukasi[0].judul;
+      imageUrl = listEdukasi[0].imageUrl;
+      deskripsi = listEdukasi[0].deskripsi;
+      materi = listEdukasi[0].materi;
+      konten = listEdukasi[0].konten;
+      tipe = listEdukasi[0].tipe;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +168,16 @@ class _EdukasiPageState extends State<EdukasiPage> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              for (var i = 0; i < 5; i++)
-                                containerMateri(i, 'Ini Judul Materi $i'),
+                              for (var i = 0; i < listEdukasi.length; i++)
+                                if (listEdukasi[i].tipe == 'pajak')
+                                  containerMateri(
+                                    i,
+                                    listEdukasi[i].judul,
+                                    listEdukasi[i].deskripsi,
+                                    listEdukasi[i].materi,
+                                    listEdukasi[i].konten,
+                                    listEdukasi[i].tipe,
+                                  ),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -155,24 +192,16 @@ class _EdukasiPageState extends State<EdukasiPage> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              for (var i = 0; i < 5; i++)
-                                containerMateri(i, 'Ini Judul Materi $i'),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                'Belajar Pajak Lainnya',
-                                style: TextStyle(
-                                  fontFamily: mainFont,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              for (var i = 0; i < 5; i++)
-                                containerMateri(i, 'Ini Judul Materi $i'),
+                              for (var i = 0; i < listEdukasi.length; i++)
+                                if (listEdukasi[i].tipe == 'other')
+                                  containerMateri(
+                                    i,
+                                    listEdukasi[i].judul,
+                                    listEdukasi[i].deskripsi,
+                                    listEdukasi[i].materi,
+                                    listEdukasi[i].konten,
+                                    listEdukasi[i].tipe,
+                                  ),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -191,32 +220,34 @@ class _EdukasiPageState extends State<EdukasiPage> {
     );
   }
 
-  Widget containerMateri(int index, String judul) => InkWell(
+  Widget containerMateri(
+    int index,
+    String judul,
+    String deskripsi,
+    String materi,
+    String konten,
+    String tipe,
+  ) =>
+      InkWell(
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const KontenEdukasiPage()));
+                  builder: (context) => KontenEdukasiPage(
+                        judul: judul,
+                        deskripsi: deskripsi,
+                        materi: materi,
+                        konten: konten,
+                        tipe: tipe,
+                      )));
         },
         child: Container(
           height: 50,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            border: index == 0
-                ? Border.all(
-                    color: Colors.black,
-                  )
-                : const Border(
-                    bottom: BorderSide(
-                      color: Colors.black,
-                    ),
-                    left: BorderSide(
-                      color: Colors.black,
-                    ),
-                    right: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
+            border: Border.all(
+              color: Colors.black,
+            ),
           ),
           child: Align(
             alignment: Alignment.centerLeft,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewPage extends StatefulWidget {
-  final String judul;
+  final String mitra;
   final String url;
-  const WebviewPage({super.key, required this.judul, required this.url});
+  const WebviewPage({super.key, required this.mitra, required this.url});
 
   @override
   State<WebviewPage> createState() => _WebviewPageState();
@@ -79,14 +79,16 @@ class _WebviewPageState extends State<WebviewPage> {
                       size: 24,
                     ),
                   ),
-                  Text(
-                    widget.judul,
-                    style: TextStyle(
-                      fontFamily: mainFont,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                      fontSize: 16,
-                      overflow: TextOverflow.ellipsis,
+                  Expanded(
+                    child: Text(
+                      widget.mitra,
+                      style: TextStyle(
+                        fontFamily: mainFont,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: 16,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ],

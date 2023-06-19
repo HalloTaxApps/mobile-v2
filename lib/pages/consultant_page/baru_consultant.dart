@@ -59,7 +59,11 @@ class _BaruConsultantState extends State<BaruConsultant> {
                 });
           }
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const LinearProgressIndicator(
+            color: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            minHeight: 1,
+          );
         }
       },
     );

@@ -361,7 +361,7 @@ class _HomePageState extends State<HomePage> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       WebviewPage(
-                                                          judul:
+                                                          mitra:
                                                               'Berita $index',
                                                           url: '')));
                                         },
