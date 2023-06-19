@@ -4,7 +4,7 @@ import 'package:hallotaxv2/models/edukasi_model.dart';
 import 'package:http/http.dart' as http;
 
 class EdukasiController {
-  final url = Uri.parse('http://10.0.2.2:8000/api/edukasis');
+  final url = Uri.parse('https://faiz-web.my.id/api/edukasis');
 
   Future getEdukasi() async {
     try {

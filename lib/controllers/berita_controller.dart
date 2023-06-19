@@ -4,7 +4,7 @@ import 'package:hallotaxv2/models/berita_model.dart';
 import 'package:http/http.dart' as http;
 
 class BeritaController {
-  final url = Uri.parse('http://10.0.2.2:8000/api/beritas');
+  final url = Uri.parse('https://faiz-web.my.id/api/beritas');
 
   Future getBerita() async {
     try {

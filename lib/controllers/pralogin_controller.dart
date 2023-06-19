@@ -4,7 +4,7 @@ import 'package:hallotaxv2/models/pralogin_model.dart';
 import 'package:http/http.dart' as http;
 
 class PraloginController {
-  final url = Uri.parse('http://10.0.2.2:8000/api/pralogins');
+  final url = Uri.parse('https://faiz-web.my.id/api/pralogins');
 
   Future getPralogin() async {
     try {

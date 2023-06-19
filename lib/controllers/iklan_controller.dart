@@ -4,7 +4,7 @@ import 'package:hallotaxv2/models/iklan_model.dart';
 import 'package:http/http.dart' as http;
 
 class IklanController {
-  final url = Uri.parse('http://10.0.2.2:8000/api/iklans');
+  final url = Uri.parse('https://faiz-web.my.id/api/iklans');
 
   Future getIklan() async {
     try {
