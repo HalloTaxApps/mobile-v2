@@ -1,5 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hallotaxv2/controllers/berita_controller.dart';
+import 'package:hallotaxv2/controllers/edukasi_controller.dart';
+import 'package:hallotaxv2/controllers/iklan_controller.dart';
+import 'package:hallotaxv2/models/berita_model.dart';
+import 'package:hallotaxv2/models/edukasi_model.dart';
+import 'package:hallotaxv2/models/iklan_model.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/berita_page.dart';
 import 'package:hallotaxv2/pages/chat_page.dart';
@@ -23,6 +29,42 @@ class _HomePageState extends State<HomePage> {
   bool isNotif = true;
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
+
+  List<BeritaModel> listBerita = [];
+  BeritaController beritaController = BeritaController();
+  List<IklanModel> listIklan = [];
+  IklanController iklanController = IklanController();
+  List<EdukasiModel> listEdukasi = [];
+  EdukasiController edukasiController = EdukasiController();
+
+  @override
+  void initState() {
+    getBerita();
+    getIklan();
+    getEdukasi();
+    super.initState();
+  }
+
+  getBerita() async {
+    listBerita = await beritaController.getBerita();
+    setState(() {
+      listBerita;
+    });
+  }
+
+  getIklan() async {
+    listIklan = await iklanController.getIklan();
+    setState(() {
+      listIklan;
+    });
+  }
+
+  getEdukasi() async {
+    listEdukasi = await edukasiController.getEdukasi();
+    setState(() {
+      listEdukasi;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +248,7 @@ class _HomePageState extends State<HomePage> {
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     physics: const BouncingScrollPhysics(),
-                                    itemCount: 5,
+                                    itemCount: listIklan.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                         onTap: () {
@@ -214,7 +256,33 @@ class _HomePageState extends State<HomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const KontenIklanPage()));
+                                                      KontenIklanPage(
+                                                        deskripsi:
+                                                            listIklan[index]
+                                                                .deskripsi,
+                                                        info: listIklan[index]
+                                                            .info,
+                                                        judul: listIklan[index]
+                                                            .judul,
+                                                        listImageUrl: [
+                                                          listIklan[index]
+                                                              .imageUrl1,
+                                                          listIklan[index]
+                                                              .imageUrl2,
+                                                          listIklan[index]
+                                                              .imageUrl3,
+                                                          listIklan[index]
+                                                              .imageUrl4,
+                                                          listIklan[index]
+                                                              .imageUrl5,
+                                                        ],
+                                                        mitra: listIklan[index]
+                                                            .mitra,
+                                                        syarat: listIklan[index]
+                                                            .syarat,
+                                                        url: listIklan[index]
+                                                            .url,
+                                                      )));
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.all(5),
@@ -223,6 +291,62 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             color: Colors.black12,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                listIklan[index].imageUrl1,
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          child: Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              height: 40,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.9),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          listIklan[index]
+                                                              .judul,
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                mainFont,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       );
@@ -279,7 +403,7 @@ class _HomePageState extends State<HomePage> {
                                   child: ListView.builder(
                                     physics: const BouncingScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: 5,
+                                    itemCount: listEdukasi.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                         onTap: () {
@@ -287,15 +411,85 @@ class _HomePageState extends State<HomePage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const KontenEdukasiPage()));
+                                                      KontenEdukasiPage(
+                                                        deskripsi:
+                                                            listEdukasi[index]
+                                                                .deskripsi,
+                                                        judul:
+                                                            listEdukasi[index]
+                                                                .judul,
+                                                        konten:
+                                                            listEdukasi[index]
+                                                                .konten,
+                                                        materi:
+                                                            listEdukasi[index]
+                                                                .materi,
+                                                        tipe: listEdukasi[index]
+                                                            .tipe,
+                                                      )));
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.all(5),
-                                          width: 150,
+                                          width: 200,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             color: Colors.black12,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  listEdukasi[index].imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          child: Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              height: 40,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.9),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          listEdukasi[index]
+                                                              .judul,
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                mainFont,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       );
@@ -352,7 +546,7 @@ class _HomePageState extends State<HomePage> {
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     physics: const BouncingScrollPhysics(),
-                                    itemCount: 5,
+                                    itemCount: listBerita.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                         onTap: () {
@@ -361,9 +555,11 @@ class _HomePageState extends State<HomePage> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       WebviewPage(
-                                                          mitra:
-                                                              'Berita $index',
-                                                          url: '')));
+                                                        mitra: listBerita[index]
+                                                            .mitra,
+                                                        url: listBerita[index]
+                                                            .url,
+                                                      )));
                                         },
                                         child: Container(
                                           margin: const EdgeInsets.all(5),
@@ -372,6 +568,61 @@ class _HomePageState extends State<HomePage> {
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                             color: Colors.black12,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  listBerita[index].imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          child: Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              height: 40,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.9),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          listBerita[index]
+                                                              .judul,
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                mainFont,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       );

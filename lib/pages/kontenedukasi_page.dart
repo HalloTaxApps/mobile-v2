@@ -8,11 +8,11 @@ class KontenEdukasiPage extends StatelessWidget {
   final String tipe;
   const KontenEdukasiPage({
     super.key,
-    this.judul = '',
-    this.deskripsi = '',
-    this.materi = '',
-    this.konten = '',
-    this.tipe = '',
+    required this.judul,
+    required this.deskripsi,
+    required this.materi,
+    required this.konten,
+    required this.tipe,
   });
 
   @override

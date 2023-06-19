@@ -11,13 +11,13 @@ class KontenIklanPage extends StatefulWidget {
   final String url;
   const KontenIklanPage({
     super.key,
-    this.mitra = '',
-    this.judul = '',
-    this.listImageUrl = const [],
-    this.deskripsi = '',
-    this.info = '',
-    this.syarat = '',
-    this.url = '',
+    required this.mitra,
+    required this.judul,
+    required this.listImageUrl,
+    required this.deskripsi,
+    required this.info,
+    required this.syarat,
+    required this.url,
   });
 
   @override
