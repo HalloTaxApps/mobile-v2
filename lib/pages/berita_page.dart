@@ -119,37 +119,37 @@ class _BeritaPageState extends State<BeritaPage> {
                         const EdgeInsets.only(top: 20.0, left: 20, right: 20),
                     child: Column(
                       children: [
-                        TextField(
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 10),
-                            suffixIcon: IconButton(
-                              padding: const EdgeInsets.all(0),
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.search,
-                                color: mainColor,
-                                size: 40,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        // TextField(
+                        //   style: const TextStyle(
+                        //     fontSize: 20,
+                        //   ),
+                        //   decoration: InputDecoration(
+                        //     contentPadding:
+                        //         const EdgeInsets.symmetric(horizontal: 10),
+                        //     suffixIcon: IconButton(
+                        //       padding: const EdgeInsets.all(0),
+                        //       onPressed: () {},
+                        //       icon: Icon(
+                        //         Icons.search,
+                        //         color: mainColor,
+                        //         size: 40,
+                        //       ),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide:
+                        //           BorderSide(color: mainColor, width: 2),
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide:
+                        //           BorderSide(color: mainColor, width: 2),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
                         Expanded(
                           child: ListView(
                             padding: EdgeInsets.zero,
@@ -225,14 +225,14 @@ class _BeritaPageState extends State<BeritaPage> {
                                               const SizedBox(
                                                 width: 10,
                                               ),
-                                              Text(
-                                                '08:30',
-                                                style: TextStyle(
-                                                  fontFamily: mainFont,
-                                                  color: Colors.black54,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
+                                              // Text(
+                                              //   '08:30',
+                                              //   style: TextStyle(
+                                              //     fontFamily: mainFont,
+                                              //     color: Colors.black54,
+                                              //     fontSize: 12,
+                                              //   ),
+                                              // ),
                                             ],
                                           ),
                                           Align(
@@ -335,14 +335,14 @@ class _BeritaPageState extends State<BeritaPage> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Text(
-                    '08:30',
-                    style: TextStyle(
-                      fontFamily: mainFont,
-                      color: Colors.black54,
-                      fontSize: 12,
-                    ),
-                  ),
+                  // Text(
+                  //   '08:30',
+                  //   style: TextStyle(
+                  //     fontFamily: mainFont,
+                  //     color: Colors.black54,
+                  //     fontSize: 12,
+                  //   ),
+                  // ),
                   Text(
                     deskripsi,
                     maxLines: 3,

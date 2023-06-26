@@ -105,19 +105,19 @@ class _BaruConsultantState extends State<BaruConsultant> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            trailing: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '08:37',
-                  style: TextStyle(
-                    fontFamily: mainFont,
-                    color: Colors.black38,
-                    fontSize: 10,
-                  ),
-                ),
-              ],
-            ),
+            // trailing: Column(
+            //   mainAxisAlignment: MainAxisAlignment.end,
+            //   children: [
+            //     Text(
+            //       '08:37',
+            //       style: TextStyle(
+            //         fontFamily: mainFont,
+            //         color: Colors.black38,
+            //         fontSize: 10,
+            //       ),
+            //     ),
+            //   ],
+            // ),
             onTap: () {
               showDialog(
                 context: context,

@@ -280,14 +280,14 @@ class _PercakapanPageState extends State<PercakapanPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Text(
-                '07:00',
-                style: TextStyle(
-                  color: Colors.black38,
-                  fontFamily: mainFont,
-                  fontSize: 12,
-                ),
-              ),
+              // Text(
+              //   '07:00',
+              //   style: TextStyle(
+              //     color: Colors.black38,
+              //     fontFamily: mainFont,
+              //     fontSize: 12,
+              //   ),
+              // ),
             ],
           ),
         ),

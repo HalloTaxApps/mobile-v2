@@ -137,14 +137,14 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(
-                '08:37',
-                style: TextStyle(
-                  fontFamily: mainFont,
-                  color: Colors.black38,
-                  fontSize: 10,
-                ),
-              ),
+              // Text(
+              //   '08:37',
+              //   style: TextStyle(
+              //     fontFamily: mainFont,
+              //     color: Colors.black38,
+              //     fontSize: 10,
+              //   ),
+              // ),
               Container(
                 width: 22,
                 height: 22,

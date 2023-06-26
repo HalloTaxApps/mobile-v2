@@ -170,47 +170,47 @@ class _ProfilPageState extends State<ProfilPage> {
                                         ),
                                       ),
                                       customTextField(
-                                        controller: emailController,
-                                        name: userData['email'],
-                                      ),
+                                          controller: emailController,
+                                          name: userData['email'],
+                                          readOnly: true),
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          'No. HP',
-                                          style: TextStyle(
-                                            color: mainColor,
-                                            fontFamily: mainFont,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      customTextField(
-                                          controller: hpController,
-                                          name: 'No. HP'),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          'Password',
-                                          style: TextStyle(
-                                            color: mainColor,
-                                            fontFamily: mainFont,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      customTextField(
-                                          controller: passwordController,
-                                          name: 'Password',
-                                          isObscured: true),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(5.0),
+                                      //   child: Text(
+                                      //     'No. HP',
+                                      //     style: TextStyle(
+                                      //       color: mainColor,
+                                      //       fontFamily: mainFont,
+                                      //       fontWeight: FontWeight.w700,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // customTextField(
+                                      //     controller: hpController,
+                                      //     name: 'No. HP'),
+                                      // const SizedBox(
+                                      //   height: 5,
+                                      // ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(5.0),
+                                      //   child: Text(
+                                      //     'Password',
+                                      //     style: TextStyle(
+                                      //       color: mainColor,
+                                      //       fontFamily: mainFont,
+                                      //       fontWeight: FontWeight.w700,
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // customTextField(
+                                      //     controller: passwordController,
+                                      //     name: 'Password',
+                                      //     isObscured: true),
+                                      // const SizedBox(
+                                      //   height: 5,
+                                      // ),
                                       Padding(
                                         padding: const EdgeInsets.all(5.0),
                                         child: Text(

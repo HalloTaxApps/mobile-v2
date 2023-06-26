@@ -125,37 +125,37 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                '08:37',
-                style: TextStyle(
-                  fontFamily: mainFont,
-                  color: Colors.black38,
-                  fontSize: 10,
-                ),
-              ),
-              Container(
-                width: 22,
-                height: 22,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                // child: Center(
-                //   child: Text(
-                //     '3',
-                //     style: TextStyle(
-                //       fontFamily: mainFont,
-                //       color: Colors.black38,
-                //       fontSize: 10,
-                //     ),
-                //   ),
-                // ),
-              )
-            ],
-          ),
+          // trailing: Column(
+          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //   children: [
+          //     Text(
+          //       '08:37',
+          //       style: TextStyle(
+          //         fontFamily: mainFont,
+          //         color: Colors.black38,
+          //         fontSize: 10,
+          //       ),
+          //     ),
+          //     Container(
+          //       width: 22,
+          //       height: 22,
+          //       decoration: BoxDecoration(
+          //         color: Colors.red,
+          //         borderRadius: BorderRadius.circular(20),
+          //       ),
+          //       child: Center(
+          //         child: Text(
+          //           '3',
+          //           style: TextStyle(
+          //             fontFamily: mainFont,
+          //             color: Colors.black38,
+          //             fontSize: 10,
+          //           ),
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          // ),
           onTap: () {
             Navigator.push(
                 context,
