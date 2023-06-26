@@ -121,37 +121,37 @@ class _EdukasiPageState extends State<EdukasiPage> {
                         const EdgeInsets.only(top: 20.0, left: 20, right: 20),
                     child: Column(
                       children: [
-                        TextField(
-                          style: const TextStyle(
-                            fontSize: 20,
-                          ),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 10),
-                            suffixIcon: IconButton(
-                              padding: const EdgeInsets.all(0),
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.search,
-                                color: mainColor,
-                                size: 40,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        // TextField(
+                        //   style: const TextStyle(
+                        //     fontSize: 20,
+                        //   ),
+                        //   decoration: InputDecoration(
+                        //     contentPadding:
+                        //         const EdgeInsets.symmetric(horizontal: 10),
+                        //     suffixIcon: IconButton(
+                        //       padding: const EdgeInsets.all(0),
+                        //       onPressed: () {},
+                        //       icon: Icon(
+                        //         Icons.search,
+                        //         color: mainColor,
+                        //         size: 40,
+                        //       ),
+                        //     ),
+                        //     enabledBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide:
+                        //           BorderSide(color: mainColor, width: 2),
+                        //     ),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(20),
+                        //       borderSide:
+                        //           BorderSide(color: mainColor, width: 2),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
                         Expanded(
                           child: ListView(
                             padding: EdgeInsets.zero,

@@ -34,10 +34,10 @@ class _ProfilPageState extends State<ProfilPage> {
                   TextEditingController(text: userData['name']);
               TextEditingController emailController =
                   TextEditingController(text: userData['email']);
-              TextEditingController hpController =
-                  TextEditingController(text: '');
-              TextEditingController passwordController =
-                  TextEditingController(text: '');
+              // TextEditingController hpController =
+              //     TextEditingController(text: '');
+              // TextEditingController passwordController =
+              //     TextEditingController(text: '');
               TextEditingController roleController =
                   TextEditingController(text: userData['role']);
               return Stack(
