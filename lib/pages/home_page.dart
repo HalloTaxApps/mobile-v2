@@ -16,6 +16,7 @@ import 'package:hallotaxv2/pages/konteniklan_page.dart';
 import 'package:hallotaxv2/pages/profil_page.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
 import 'package:hallotaxv2/pages/webview_page.dart';
+import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
 
 class HomePage extends StatefulWidget {
   final UserModel user;
@@ -37,12 +38,97 @@ class _HomePageState extends State<HomePage> {
   List<EdukasiModel> listEdukasi = [];
   EdukasiController edukasiController = EdukasiController();
 
+  TutorialCoachMark? tutorialCoachMark;
+
+  List<TargetFocus> targets = [];
+
+  GlobalKey keyChatStatus = GlobalKey();
+  GlobalKey keyProfil = GlobalKey();
+  GlobalKey keyChat = GlobalKey();
+
   @override
   void initState() {
     getBerita();
     getIklan();
     getEdukasi();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      _showTutorialCoachmark();
+    });
     super.initState();
+  }
+
+  void _showTutorialCoachmark() {
+    _initTarget();
+    tutorialCoachMark = TutorialCoachMark(
+      targets: targets,
+      pulseEnable: false,
+    )..show(context: context);
+  }
+
+  void _initTarget() {
+    targets = [
+      TargetFocus(
+        identify: "",
+        keyTarget: keyProfil,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return CoachmarkDesc(
+                text: "Klik untuk melihat informasi profil anda",
+                onNext: () {
+                  controller.next();
+                },
+                onSkip: () {
+                  controller.skip();
+                },
+              );
+            },
+          )
+        ],
+      ),
+      TargetFocus(
+        identify: "",
+        keyTarget: keyChatStatus,
+        contents: [
+          TargetContent(
+            align: ContentAlign.bottom,
+            builder: (context, controller) {
+              return CoachmarkDesc(
+                text: "Klik untuk melihat percakapan konsultasi anda",
+                onNext: () {
+                  controller.next();
+                },
+                onSkip: () {
+                  controller.skip();
+                },
+              );
+            },
+          )
+        ],
+      ),
+      TargetFocus(
+        identify: "",
+        keyTarget: keyChat,
+        shape: ShapeLightFocus.RRect,
+        contents: [
+          TargetContent(
+            align: ContentAlign.top,
+            builder: (context, controller) {
+              return CoachmarkDesc(
+                text: "Klik untuk memulai konsultasi",
+                onNext: () {
+                  controller.next();
+                },
+                onSkip: () {
+                  controller.skip();
+                },
+              );
+            },
+          )
+        ],
+      ),
+    ];
   }
 
   getBerita() async {
@@ -70,12 +156,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
+        key: keyChat,
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ChatPage(
                         user: widget.user,
+                        formerPage: 'home',
                       )));
         },
         backgroundColor: mainColor,
@@ -99,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     children: const [
                       SizedBox(
-                        height: 130,
+                        height: 100,
                       ),
                       SizedBox(
                         width: double.infinity,
@@ -121,6 +209,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             InkWell(
+                              key: keyProfil,
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -138,6 +227,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             InkWell(
+                              key: keyChatStatus,
                               onTap: () {
                                 Navigator.push(
                                     context,
@@ -187,10 +277,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 60,
+                        height: 20,
                       ),
                       Expanded(
                         child: Container(
+                          padding: const EdgeInsets.only(top: 10),
                           width: double.infinity,
                           decoration: const BoxDecoration(
                             color: Colors.white,
@@ -199,8 +290,8 @@ class _HomePageState extends State<HomePage> {
                               topRight: Radius.circular(20),
                             ),
                           ),
-                          child: ListView(
-                            physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            // physics: const BouncingScrollPhysics(),
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -209,7 +300,253 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'Rekomendasi Untuk Anda',
+                                        'Berita Menarik',
+                                        style: TextStyle(
+                                          fontFamily: mainFont,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const BeritaPage()));
+                                      },
+                                      child: Text(
+                                        'Selengkapnya',
+                                        style: TextStyle(
+                                          fontFamily: mainFont,
+                                          color: mainColor,
+                                          fontSize: 12,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 150,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: listBerita.length,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      WebviewPage(
+                                                        mitra: listBerita[index]
+                                                            .mitra,
+                                                        url: listBerita[index]
+                                                            .url,
+                                                      )));
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.all(5),
+                                          width: 250,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.black12,
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  listBerita[index].imageUrl),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          child: Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Container(
+                                              height: 40,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white
+                                                    .withOpacity(0.9),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(10),
+                                                  bottomRight:
+                                                      Radius.circular(10),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          listBerita[index]
+                                                              .judul,
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                mainFont,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Cari Tahu Seputar Pajak',
+                                        style: TextStyle(
+                                          fontFamily: mainFont,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const EdukasiPage()));
+                                      },
+                                      child: Text(
+                                        'Selengkapnya',
+                                        style: TextStyle(
+                                          fontFamily: mainFont,
+                                          color: mainColor,
+                                          fontSize: 12,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: ListView.builder(
+                                    physics: const BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: listEdukasi.length,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 160,
+                                            height: 40,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: mainColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                shadowColor: Colors.black38,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            KontenEdukasiPage(
+                                                              deskripsi:
+                                                                  listEdukasi[
+                                                                          index]
+                                                                      .deskripsi,
+                                                              judul:
+                                                                  listEdukasi[
+                                                                          index]
+                                                                      .judul,
+                                                              konten:
+                                                                  listEdukasi[
+                                                                          index]
+                                                                      .konten,
+                                                              materi:
+                                                                  listEdukasi[
+                                                                          index]
+                                                                      .materi,
+                                                              tipe: listEdukasi[
+                                                                      index]
+                                                                  .tipe,
+                                                            )));
+                                              },
+                                              child: Text(
+                                                listEdukasi[index].judul,
+                                                style: TextStyle(
+                                                  fontFamily: mainFont,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          )
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Layanan Lainnya',
                                         style: TextStyle(
                                           fontFamily: mainFont,
                                           fontWeight: FontWeight.w700,
@@ -357,282 +694,37 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Cari Tahu Seputar Pajak',
-                                        style: TextStyle(
-                                          fontFamily: mainFont,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const EdukasiPage()));
-                                      },
-                                      child: Text(
-                                        'Selengkapnya',
-                                        style: TextStyle(
-                                          fontFamily: mainFont,
-                                          color: mainColor,
-                                          fontSize: 12,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 150,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: listEdukasi.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      KontenEdukasiPage(
-                                                        deskripsi:
-                                                            listEdukasi[index]
-                                                                .deskripsi,
-                                                        judul:
-                                                            listEdukasi[index]
-                                                                .judul,
-                                                        konten:
-                                                            listEdukasi[index]
-                                                                .konten,
-                                                        materi:
-                                                            listEdukasi[index]
-                                                                .materi,
-                                                        tipe: listEdukasi[index]
-                                                            .tipe,
-                                                      )));
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.all(5),
-                                          width: 200,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.black12,
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  listEdukasi[index].imageUrl),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          child: Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Container(
-                                              height: 40,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white
-                                                    .withOpacity(0.9),
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(10),
-                                                  bottomRight:
-                                                      Radius.circular(10),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          listEdukasi[index]
-                                                              .judul,
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                mainFont,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            fontSize: 16,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                              Expanded(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Hallotax by Grahaoffice.id',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontFamily: mainFont,
+                                            color: Colors.black54,
                                           ),
                                         ),
-                                      );
-                                    },
+                                        Text(
+                                          '(PT. Graha Pelita Nusantara)',
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontFamily: mainFont,
+                                            color: Colors.black54,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Berita Menarik',
-                                        style: TextStyle(
-                                          fontFamily: mainFont,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const BeritaPage()));
-                                      },
-                                      child: Text(
-                                        'Selengkapnya',
-                                        style: TextStyle(
-                                          fontFamily: mainFont,
-                                          color: mainColor,
-                                          fontSize: 12,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                height: 150,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0),
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemCount: listBerita.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      WebviewPage(
-                                                        mitra: listBerita[index]
-                                                            .mitra,
-                                                        url: listBerita[index]
-                                                            .url,
-                                                      )));
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.all(5),
-                                          width: 250,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: Colors.black12,
-                                            image: DecorationImage(
-                                              image: NetworkImage(
-                                                  listBerita[index].imageUrl),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          child: Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Container(
-                                              height: 40,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 10,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white
-                                                    .withOpacity(0.9),
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(10),
-                                                  bottomRight:
-                                                      Radius.circular(10),
-                                                ),
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          listBerita[index]
-                                                              .judul,
-                                                          style: TextStyle(
-                                                            fontFamily:
-                                                                mainFont,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            fontSize: 16,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+                              )
                             ],
                           ),
                         ),
@@ -647,6 +739,93 @@ class _HomePageState extends State<HomePage> {
               );
             }
           }),
+    );
+  }
+}
+
+class CoachmarkDesc extends StatefulWidget {
+  const CoachmarkDesc({
+    super.key,
+    required this.text,
+    this.skip = "Skip",
+    this.next = "Next",
+    this.onSkip,
+    this.onNext,
+  });
+
+  final String text;
+  final String skip;
+  final String next;
+  final void Function()? onSkip;
+  final void Function()? onNext;
+
+  @override
+  State<CoachmarkDesc> createState() => _CoachmarkDescState();
+}
+
+class _CoachmarkDescState extends State<CoachmarkDesc>
+    with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+      vsync: this,
+      lowerBound: 0,
+      upperBound: 20,
+      duration: const Duration(milliseconds: 800),
+    )..repeat(min: 0, max: 20, reverse: true);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animationController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, animationController.value),
+          child: child,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.text,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: widget.onSkip,
+                  child: Text(widget.skip),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: widget.onNext,
+                  child: Text(widget.next),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

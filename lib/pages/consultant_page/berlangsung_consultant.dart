@@ -38,49 +38,51 @@ class _BerlangsungConsultantState extends State<BerlangsungConsultant> {
           if (count == 0) {
             return noData();
           } else {
-            return ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  var friendId = snapshot.data!.docs[index]['senderId'];
-                  var lastMsg = snapshot.data!.docs[index]['last_msg'];
-                  var msgStatus = snapshot.data!.docs[index]['status'];
-                  var msgType = snapshot.data!.docs[index]['type'];
-                  var msgId = snapshot.data!.docs[index].id;
-                  return msgStatus == 'on'
-                      ? FutureBuilder(
-                          future: FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(friendId)
-                              .get(),
-                          builder: (context, AsyncSnapshot asyncSnapshot) {
-                            if (asyncSnapshot.hasData) {
-                              var friend = asyncSnapshot.data;
-                              return friend['role'] == 'Customer'
-                                  ? containerListTile(
-                                      msgType == 'Anonymous'
-                                          ? msgType
-                                          : friend['name'],
-                                      lastMsg,
-                                      msgType == 'Anonymous'
-                                          ? 'https://cdn-icons-png.flaticon.com/512/180/180691.png'
-                                          : friend['image'],
-                                      friend,
-                                      msgType,
-                                      msgId,
-                                    )
-                                  : const SizedBox();
-                            }
-                            return const LinearProgressIndicator(
-                              color: Colors.transparent,
-                              backgroundColor: Colors.transparent,
-                              minHeight: 1,
-                            );
-                          },
-                        )
-                      : const SizedBox();
-                });
+            return Expanded(
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    var friendId = snapshot.data!.docs[index]['senderId'];
+                    var lastMsg = snapshot.data!.docs[index]['last_msg'];
+                    var msgStatus = snapshot.data!.docs[index]['status'];
+                    var msgType = snapshot.data!.docs[index]['type'];
+                    var msgId = snapshot.data!.docs[index].id;
+                    return msgStatus == 'on'
+                        ? FutureBuilder(
+                            future: FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(friendId)
+                                .get(),
+                            builder: (context, AsyncSnapshot asyncSnapshot) {
+                              if (asyncSnapshot.hasData) {
+                                var friend = asyncSnapshot.data;
+                                return friend['role'] == 'Customer'
+                                    ? containerListTile(
+                                        msgType == 'Anonymous'
+                                            ? msgType
+                                            : friend['name'],
+                                        lastMsg,
+                                        msgType == 'Anonymous'
+                                            ? 'https://cdn-icons-png.flaticon.com/512/180/180691.png'
+                                            : friend['image'],
+                                        friend,
+                                        msgType,
+                                        msgId,
+                                      )
+                                    : const SizedBox();
+                              }
+                              return const LinearProgressIndicator(
+                                color: Colors.transparent,
+                                backgroundColor: Colors.transparent,
+                                minHeight: 1,
+                              );
+                            },
+                          )
+                        : const SizedBox();
+                  }),
+            );
           }
         } else {
           return Center(

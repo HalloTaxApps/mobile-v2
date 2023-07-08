@@ -5,7 +5,8 @@ import 'package:hallotaxv2/pages/statuschat_page.dart';
 
 class ChatPage extends StatefulWidget {
   final UserModel user;
-  const ChatPage({super.key, required this.user});
+  final String formerPage;
+  const ChatPage({super.key, required this.user, required this.formerPage});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -101,7 +102,7 @@ class _ChatPageState extends State<ChatPage> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.6,
+                            width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
                               'Krim Pesan Untuk Memulai Konsultasi',
                               maxLines: 2,
@@ -116,52 +117,52 @@ class _ChatPageState extends State<ChatPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            width: 150,
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: mainColor,
-                                width: 1,
-                              ),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                value: dropDownStatus,
-                                icon: const Icon(Icons.arrow_drop_down),
-                                elevation: 16,
-                                items: status
-                                    .map<DropdownMenuItem<String>>(
-                                        (value) => DropdownMenuItem<String>(
-                                            value: value,
-                                            child: SizedBox(
-                                              width: 100,
-                                              child: Text(
-                                                value,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            )))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    dropDownStatus = value.toString();
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        // Align(
+                        //   alignment: Alignment.topLeft,
+                        //   child: Container(
+                        //     width: 150,
+                        //     padding: const EdgeInsets.symmetric(horizontal: 10),
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(10),
+                        //       border: Border.all(
+                        //         color: mainColor,
+                        //         width: 1,
+                        //       ),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         value: dropDownStatus,
+                        //         icon: const Icon(Icons.arrow_drop_down),
+                        //         elevation: 16,
+                        //         items: status
+                        //             .map<DropdownMenuItem<String>>(
+                        //                 (value) => DropdownMenuItem<String>(
+                        //                     value: value,
+                        //                     child: SizedBox(
+                        //                       width: 100,
+                        //                       child: Text(
+                        //                         value,
+                        //                         style: const TextStyle(
+                        //                           color: Colors.black,
+                        //                           fontSize: 16,
+                        //                           overflow:
+                        //                               TextOverflow.ellipsis,
+                        //                         ),
+                        //                       ),
+                        //                     )))
+                        //             .toList(),
+                        //         onChanged: (value) {
+                        //           setState(() {
+                        //             dropDownStatus = value.toString();
+                        //           });
+                        //         },
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.33,
                           decoration: BoxDecoration(
@@ -174,13 +175,17 @@ class _ChatPageState extends State<ChatPage> {
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             controller: controller,
-                            decoration: const InputDecoration(
-                              enabledBorder: OutlineInputBorder(
+                            decoration: InputDecoration(
+                              hintText: 'Mulai konsultasi anda',
+                              hintStyle: TextStyle(
+                                fontFamily: mainFont,
+                              ),
+                              enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                 ),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                   color: Colors.transparent,
                                 ),
@@ -210,13 +215,18 @@ class _ChatPageState extends State<ChatPage> {
                                   'senderId': widget.user.uid,
                                   'receiverId': '',
                                 });
-                                // ignore: use_build_context_synchronously
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StatusChatPage(
-                                              user: widget.user,
-                                            )));
+                                if (widget.formerPage == 'home') {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => StatusChatPage(
+                                                user: widget.user,
+                                              )));
+                                } else if (widget.formerPage == 'status') {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.pop(context);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: mainColor,

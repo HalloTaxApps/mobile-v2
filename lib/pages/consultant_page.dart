@@ -157,13 +157,7 @@ class _ConsultantPageState extends State<ConsultantPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20.0),
-                                  child: ListView(
-                                    padding: EdgeInsets.zero,
-                                    physics: const BouncingScrollPhysics(),
-                                    children: [
-                                      isiSection,
-                                    ],
-                                  ),
+                                  child: isiSection,
                                 ),
                               ),
                             ],

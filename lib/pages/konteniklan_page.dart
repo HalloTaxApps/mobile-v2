@@ -215,6 +215,9 @@ class _KontenIklanPageState extends State<KontenIklanPage> {
                           ],
                         ),
                       ),
+                      const SizedBox(
+                        height: 50,
+                      )
                     ],
                   ),
                 ),

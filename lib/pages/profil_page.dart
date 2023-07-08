@@ -34,12 +34,12 @@ class _ProfilPageState extends State<ProfilPage> {
                   TextEditingController(text: userData['name']);
               TextEditingController emailController =
                   TextEditingController(text: userData['email']);
-              // TextEditingController hpController =
-              //     TextEditingController(text: '');
+              TextEditingController hpController =
+                  TextEditingController(text: '0813344556677');
               // TextEditingController passwordController =
               //     TextEditingController(text: '');
-              TextEditingController roleController =
-                  TextEditingController(text: userData['role']);
+              // TextEditingController roleController =
+              //     TextEditingController(text: userData['role']);
               return Stack(
                 children: [
                   Column(
@@ -84,21 +84,40 @@ class _ProfilPageState extends State<ProfilPage> {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.logout,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              GoogleSignIn().signOut();
-                              FirebaseAuth.instance.signOut();
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 5,
+                                  ),
+                                  constraints: const BoxConstraints(),
+                                  icon: const Icon(
+                                    Icons.logout,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    GoogleSignIn().signOut();
+                                    FirebaseAuth.instance.signOut();
 
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SplashScreen()),
-                                  (Route<dynamic> route) => false);
-                            },
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SplashScreen()),
+                                        (Route<dynamic> route) => false);
+                                  },
+                                ),
+                                Text(
+                                  'Log Out',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: mainFont,
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -214,7 +233,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                       Padding(
                                         padding: const EdgeInsets.all(5.0),
                                         child: Text(
-                                          'Role',
+                                          'No HP',
                                           style: TextStyle(
                                             color: mainColor,
                                             fontFamily: mainFont,
@@ -223,9 +242,10 @@ class _ProfilPageState extends State<ProfilPage> {
                                         ),
                                       ),
                                       customTextField(
-                                          controller: roleController,
-                                          name: userData['role'],
-                                          readOnly: true),
+                                        controller: hpController,
+                                        name: 'No HP',
+                                        readOnly: true,
+                                      ),
                                       const SizedBox(
                                         height: 20,
                                       ),
@@ -328,11 +348,6 @@ class _ProfilPageState extends State<ProfilPage> {
           filled: true,
           fillColor:
               !readOnly ? Colors.transparent : Colors.grey.withOpacity(0.5),
-          hintText: name,
-          hintStyle: const TextStyle(
-            fontSize: 16,
-            color: Colors.black,
-          ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               width: 2,

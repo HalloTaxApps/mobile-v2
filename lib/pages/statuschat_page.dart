@@ -4,6 +4,8 @@ import 'package:hallotaxv2/pages/chatstatus_page/baru_page.dart';
 import 'package:hallotaxv2/pages/chatstatus_page/berlangsung_page.dart';
 import 'package:hallotaxv2/pages/chatstatus_page/selesai_page.dart';
 
+import 'chat_page.dart';
+
 class StatusChatPage extends StatefulWidget {
   final UserModel user;
   const StatusChatPage({super.key, required this.user});
@@ -27,6 +29,21 @@ class _StatusChatPageState extends State<StatusChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatPage(
+                        user: widget.user,
+                        formerPage: 'status',
+                      )));
+        },
+        backgroundColor: mainColor,
+        child: const Icon(
+          Icons.add,
+        ),
+      ),
       body: Stack(
         children: [
           Column(

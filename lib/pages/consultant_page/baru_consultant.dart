@@ -33,30 +33,31 @@ class _BaruConsultantState extends State<BaruConsultant> {
           if (count == 0) {
             return noData();
           } else {
-            return ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  var lastMsg = snapshot.data!.docs[index]['last_msg'];
-                  var msgStatus = snapshot.data!.docs[index]['status'];
-                  var msgType = snapshot.data!.docs[index]['type'];
-                  var msgId = snapshot.data!.docs[index].id;
-                  var senderId = snapshot.data!.docs[index]['senderId'];
-                  return msgStatus == 'new'
-                      ? containerListTile(
-                          msgType,
-                          lastMsg,
-                          msgType == 'Anonymous'
-                              ? 'https://cdn-icons-png.flaticon.com/512/180/180691.png'
-                              : widget.user.image,
-                          '',
-                          msgId,
-                          msgType,
-                          senderId,
-                        )
-                      : const SizedBox();
-                });
+            return Expanded(
+              child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    var lastMsg = snapshot.data!.docs[index]['last_msg'];
+                    var msgStatus = snapshot.data!.docs[index]['status'];
+                    var msgType = snapshot.data!.docs[index]['type'];
+                    var msgId = snapshot.data!.docs[index].id;
+                    var senderId = snapshot.data!.docs[index]['senderId'];
+                    return msgStatus == 'new'
+                        ? containerListTile(
+                            msgType,
+                            lastMsg,
+                            msgType == 'Anonymous'
+                                ? 'https://cdn-icons-png.flaticon.com/512/180/180691.png'
+                                : widget.user.image,
+                            '',
+                            msgId,
+                            msgType,
+                            senderId,
+                          )
+                        : const SizedBox();
+                  }),
+            );
           }
         } else {
           return const LinearProgressIndicator(
