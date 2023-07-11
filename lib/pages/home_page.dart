@@ -767,6 +767,9 @@ class _CoachmarkDescState extends State<CoachmarkDesc>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
 
+  Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
+  String mainFont = 'Nunito';
+
   @override
   void initState() {
     animationController = AnimationController(
@@ -814,12 +817,23 @@ class _CoachmarkDescState extends State<CoachmarkDesc>
               children: [
                 TextButton(
                   onPressed: widget.onSkip,
-                  child: Text(widget.skip),
+                  child: Text(
+                    widget.skip,
+                    style: TextStyle(color: mainColor, fontFamily: mainFont),
+                  ),
                 ),
                 const SizedBox(width: 16),
                 ElevatedButton(
                   onPressed: widget.onNext,
-                  child: Text(widget.next),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: mainColor,
+                  ),
+                  child: Text(
+                    widget.next,
+                    style: TextStyle(
+                      fontFamily: mainFont,
+                    ),
+                  ),
                 ),
               ],
             )

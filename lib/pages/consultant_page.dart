@@ -127,6 +127,7 @@ class _ConsultantPageState extends State<ConsultantPage> {
                       ),
                       Expanded(
                         child: Container(
+                          width: double.infinity,
                           decoration: const BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.only(
@@ -154,10 +155,12 @@ class _ConsultantPageState extends State<ConsultantPage> {
                                 ),
                               ),
                               Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: isiSection,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: isiSection,
+                                  ),
                                 ),
                               ),
                             ],

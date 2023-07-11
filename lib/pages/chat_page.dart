@@ -16,7 +16,7 @@ class _ChatPageState extends State<ChatPage> {
   Color mainColor = const Color.fromRGBO(251, 152, 12, 1);
   String mainFont = 'Nunito';
   final TextEditingController controller = TextEditingController();
-  late List<String> status = ['Anonymous', widget.user.name];
+  late List<String> status = [widget.user.name, 'Anonymous'];
   late String dropDownStatus = status.first;
 
   @override
@@ -214,6 +214,8 @@ class _ChatPageState extends State<ChatPage> {
                                   'last_msg': message,
                                   'senderId': widget.user.uid,
                                   'receiverId': '',
+                                  'label': true,
+                                  'last_msg_time': DateTime.now(),
                                 });
                                 if (widget.formerPage == 'home') {
                                   // ignore: use_build_context_synchronously

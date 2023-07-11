@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
+import 'package:intl/intl.dart';
 
 class BaruConsultant extends StatefulWidget {
   final UserModel user;
@@ -17,8 +18,10 @@ class _BaruConsultantState extends State<BaruConsultant> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          FirebaseFirestore.instance.collectionGroup('messages').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collectionGroup('messages')
+          // .orderBy('last_msg_time', descending: true)
+          .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         var count = 0;
         if (snapshot.hasData) {
@@ -43,6 +46,10 @@ class _BaruConsultantState extends State<BaruConsultant> {
                     var msgType = snapshot.data!.docs[index]['type'];
                     var msgId = snapshot.data!.docs[index].id;
                     var senderId = snapshot.data!.docs[index]['senderId'];
+                    var time = snapshot.data!.docs[index]['last_msg_time'];
+                    var dateTime = DateTime.fromMillisecondsSinceEpoch(
+                        time.millisecondsSinceEpoch);
+                    var dateFormat = DateFormat('k:mm').format(dateTime);
                     return msgStatus == 'new'
                         ? containerListTile(
                             msgType,
@@ -54,6 +61,7 @@ class _BaruConsultantState extends State<BaruConsultant> {
                             msgId,
                             msgType,
                             senderId,
+                            dateFormat,
                           )
                         : const SizedBox();
                   }),
@@ -71,7 +79,7 @@ class _BaruConsultantState extends State<BaruConsultant> {
   }
 
   Widget containerListTile(String nama, String lastMsg, String imageUrl,
-      var receiver, String msgId, String msgType, String senderId) {
+      var receiver, String msgId, String msgType, String senderId, var time) {
     return Container(
       height: 80,
       decoration: const BoxDecoration(
@@ -106,19 +114,19 @@ class _BaruConsultantState extends State<BaruConsultant> {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            // trailing: Column(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     Text(
-            //       '08:37',
-            //       style: TextStyle(
-            //         fontFamily: mainFont,
-            //         color: Colors.black38,
-            //         fontSize: 10,
-            //       ),
-            //     ),
-            //   ],
-            // ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  time,
+                  style: TextStyle(
+                    fontFamily: mainFont,
+                    color: Colors.black38,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
             onTap: () {
               showDialog(
                 context: context,
@@ -169,7 +177,9 @@ class _BaruConsultantState extends State<BaruConsultant> {
                                     'senderId': senderId,
                                     'status': 'on',
                                     'type': msgType,
-                                    'receiverId': widget.user.uid
+                                    'receiverId': widget.user.uid,
+                                    'last_msg_time': DateTime.now(),
+                                    'label': false,
                                   })
                                 });
                         FirebaseFirestore.instance
@@ -193,6 +203,8 @@ class _BaruConsultantState extends State<BaruConsultant> {
                                 .update({
                               'status': 'on',
                               'receiverId': widget.user.uid,
+                              'last_msg_time': DateTime.now(),
+                              'label': false,
                             })
                           },
                         );

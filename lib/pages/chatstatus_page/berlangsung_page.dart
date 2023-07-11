@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/percakapan_page.dart';
+import 'package:intl/intl.dart';
 
 class BerlangsungPage extends StatefulWidget {
   final UserModel user;
@@ -21,6 +22,7 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
           .collection('users')
           .doc(widget.user.uid)
           .collection('messages')
+          .orderBy('last_msg_time', descending: true)
           .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         var count = 0;
@@ -46,6 +48,11 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
                   var msgStatus = snapshot.data!.docs[index]['status'];
                   var msgType = snapshot.data!.docs[index]['type'];
                   var msgId = snapshot.data!.docs[index].id;
+                  var label = snapshot.data!.docs[index]['label'];
+                  var time = snapshot.data!.docs[index]['last_msg_time'];
+                  var dateTime = DateTime.fromMillisecondsSinceEpoch(
+                      time.millisecondsSinceEpoch);
+                  var dateFormat = DateFormat('k:mm').format(dateTime);
                   return msgStatus == 'on'
                       ? FutureBuilder(
                           future: FirebaseFirestore.instance
@@ -63,6 +70,8 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
                                       friend,
                                       msgType,
                                       msgId,
+                                      label,
+                                      dateFormat,
                                     )
                                   : const SizedBox();
                             }
@@ -90,6 +99,8 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
     var receiver,
     var msgType,
     var msgId,
+    var label,
+    var time,
   ) {
     return Container(
       height: 80,
@@ -125,38 +136,48 @@ class _BerlangsungPageState extends State<BerlangsungPage> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // trailing: Column(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     Text(
-          //       '08:37',
-          //       style: TextStyle(
-          //         fontFamily: mainFont,
-          //         color: Colors.black38,
-          //         fontSize: 10,
-          //       ),
-          //     ),
-          //     Container(
-          //       width: 22,
-          //       height: 22,
-          //       decoration: BoxDecoration(
-          //         color: Colors.red,
-          //         borderRadius: BorderRadius.circular(20),
-          //       ),
-          //       child: Center(
-          //         child: Text(
-          //           '3',
-          //           style: TextStyle(
-          //             fontFamily: mainFont,
-          //             color: Colors.black38,
-          //             fontSize: 10,
-          //           ),
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          // ),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              label
+                  ? Container(
+                      width: 16,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      // child: Center(
+                      //   child: Text(
+                      //     '3',
+                      //     style: TextStyle(
+                      //       fontFamily: mainFont,
+                      //       color: Colors.black38,
+                      //       fontSize: 10,
+                      //     ),
+                      //   ),
+                      // ),
+                    )
+                  : const SizedBox(),
+              Text(
+                time.toString(),
+                style: TextStyle(
+                  fontFamily: mainFont,
+                  color: Colors.black38,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
           onTap: () {
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(widget.user.uid)
+                .collection('messages')
+                .doc(msgId)
+                .update({
+              'label': false,
+            });
             Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
+import 'package:intl/intl.dart';
 
 class BaruPage extends StatefulWidget {
   final UserModel user;
@@ -20,6 +21,10 @@ class _BaruPageState extends State<BaruPage> {
           .collection('users')
           .doc(widget.user.uid)
           .collection('messages')
+          .orderBy(
+            'last_msg_time',
+            descending: true,
+          )
           .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         var count = 0;
@@ -43,6 +48,10 @@ class _BaruPageState extends State<BaruPage> {
                   var lastMsg = snapshot.data!.docs[index]['last_msg'];
                   var msgStatus = snapshot.data!.docs[index]['status'];
                   var msgType = snapshot.data!.docs[index]['type'];
+                  var time = snapshot.data!.docs[index]['last_msg_time'];
+                  var dateTime = DateTime.fromMillisecondsSinceEpoch(
+                      time.millisecondsSinceEpoch);
+                  var dateFormat = DateFormat('k:mm').format(dateTime);
                   return msgStatus == 'new'
                       ? containerListTile(
                           msgType,
@@ -51,6 +60,7 @@ class _BaruPageState extends State<BaruPage> {
                               ? 'https://cdn-icons-png.flaticon.com/512/180/180691.png'
                               : widget.user.image,
                           '',
+                          dateFormat,
                         )
                       : const SizedBox();
                 });
@@ -67,6 +77,7 @@ class _BaruPageState extends State<BaruPage> {
     String lastMsg,
     String imageUrl,
     var receiver,
+    var time,
   ) {
     return Container(
       height: 80,
@@ -102,19 +113,19 @@ class _BaruPageState extends State<BaruPage> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // trailing: Column(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     Text(
-          //       '08:37',
-          //       style: TextStyle(
-          //         fontFamily: mainFont,
-          //         color: Colors.black38,
-          //         fontSize: 10,
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                time,
+                style: TextStyle(
+                  fontFamily: mainFont,
+                  color: Colors.black38,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
+import 'package:intl/intl.dart';
 
 class PercakapanPage extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -206,9 +207,16 @@ class _PercakapanPageState extends State<PercakapanPage> {
                                 bool isMe = snapshot.data.docs[index]
                                         ['senderId'] ==
                                     widget.user.uid;
+                                var time = snapshot.data!.docs[index]['date'];
+                                var dateTime =
+                                    DateTime.fromMillisecondsSinceEpoch(
+                                        time.millisecondsSinceEpoch);
+                                var dateFormat =
+                                    DateFormat('k:mm').format(dateTime);
                                 return singleMessage(
                                   isMe,
                                   snapshot.data.docs[index]['message'],
+                                  dateFormat,
                                 );
                               },
                             );
@@ -255,7 +263,7 @@ class _PercakapanPageState extends State<PercakapanPage> {
     );
   }
 
-  Row singleMessage(bool isMe, String message) {
+  Row singleMessage(bool isMe, String message, var time) {
     return Row(
       mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
@@ -280,14 +288,14 @@ class _PercakapanPageState extends State<PercakapanPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              // Text(
-              //   '07:00',
-              //   style: TextStyle(
-              //     color: Colors.black38,
-              //     fontFamily: mainFont,
-              //     fontSize: 12,
-              //   ),
-              // ),
+              Text(
+                time,
+                style: TextStyle(
+                  color: Colors.black38,
+                  fontFamily: mainFont,
+                  fontSize: 10,
+                ),
+              ),
             ],
           ),
         ),
@@ -378,6 +386,8 @@ class _PercakapanPageState extends State<PercakapanPage> {
                       .doc(widget.msgId)
                       .update({
                     'last_msg': message,
+                    'last_msg_time': DateTime.now(),
+                    'label': false,
                   });
                 });
                 await FirebaseFirestore.instance
@@ -400,6 +410,8 @@ class _PercakapanPageState extends State<PercakapanPage> {
                       .doc(widget.msgId)
                       .update({
                     'last_msg': message,
+                    'last_msg_time': DateTime.now(),
+                    'label': true,
                   });
                 });
               },

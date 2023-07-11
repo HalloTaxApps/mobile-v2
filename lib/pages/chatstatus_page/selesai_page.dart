@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
+import 'package:intl/intl.dart';
 
 import '../percakapan_page.dart';
 
@@ -22,6 +23,7 @@ class _SelesaiPageState extends State<SelesaiPage> {
           .collection('users')
           .doc(widget.user.uid)
           .collection('messages')
+          .orderBy('last_msg_time', descending: true)
           .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         var count = 0;
@@ -47,6 +49,10 @@ class _SelesaiPageState extends State<SelesaiPage> {
                   var msgStatus = snapshot.data!.docs[index]['status'];
                   var msgType = snapshot.data!.docs[index]['type'];
                   var msgId = snapshot.data!.docs[index].id;
+                  var time = snapshot.data!.docs[index]['last_msg_time'];
+                  var dateTime = DateTime.fromMillisecondsSinceEpoch(
+                      time.millisecondsSinceEpoch);
+                  var dateFormat = DateFormat('k:mm').format(dateTime);
                   return msgStatus == 'done'
                       ? FutureBuilder(
                           future: FirebaseFirestore.instance
@@ -64,6 +70,7 @@ class _SelesaiPageState extends State<SelesaiPage> {
                                       friend,
                                       msgType,
                                       msgId,
+                                      dateFormat,
                                     )
                                   : const SizedBox();
                             }
@@ -91,6 +98,7 @@ class _SelesaiPageState extends State<SelesaiPage> {
     var receiver,
     var msgType,
     var msgId,
+    var time,
   ) {
     return Container(
       height: 80,
@@ -126,19 +134,19 @@ class _SelesaiPageState extends State<SelesaiPage> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          // trailing: Column(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     Text(
-          //       '08:37',
-          //       style: TextStyle(
-          //         fontFamily: mainFont,
-          //         color: Colors.black38,
-          //         fontSize: 10,
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          trailing: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                time,
+                style: TextStyle(
+                  fontFamily: mainFont,
+                  color: Colors.black38,
+                  fontSize: 10,
+                ),
+              ),
+            ],
+          ),
           onTap: () {
             Navigator.push(
                 context,
