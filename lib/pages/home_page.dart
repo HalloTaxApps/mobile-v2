@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/controllers/berita_controller.dart';
@@ -17,6 +19,7 @@ import 'package:hallotaxv2/pages/profil_page.dart';
 import 'package:hallotaxv2/pages/statuschat_page.dart';
 import 'package:hallotaxv2/pages/webview_page.dart';
 import 'package:tutorial_coach_mark/tutorial_coach_mark.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   final UserModel user;
@@ -51,8 +54,16 @@ class _HomePageState extends State<HomePage> {
     getBerita();
     getIklan();
     getEdukasi();
-    Future.delayed(const Duration(milliseconds: 100), () {
-      _showTutorialCoachmark();
+    Future.delayed(const Duration(milliseconds: 100), () async {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      final bool? isFirstOpen = sharedPreferences.getBool('isFirstOpen');
+      // ignore: avoid_print
+      print('isFirstOpen Home = $isFirstOpen');
+      isFirstOpen!
+          ? _showTutorialCoachmark()
+          : print('isFirstOpen Home = $isFirstOpen');
+      sharedPreferences.setBool('isFirstOpen', false);
     });
     super.initState();
   }

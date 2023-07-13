@@ -7,6 +7,8 @@ class UserModel {
   Timestamp date;
   String uid;
   String role;
+  String telephone;
+  String fcmToken;
 
   UserModel({
     required this.email,
@@ -15,6 +17,8 @@ class UserModel {
     required this.date,
     required this.uid,
     required this.role,
+    required this.telephone,
+    required this.fcmToken,
   });
 
   factory UserModel.fromJson(DocumentSnapshot snapshot) {
@@ -25,6 +29,8 @@ class UserModel {
       date: snapshot['date'],
       uid: snapshot['uid'],
       role: snapshot['role'],
+      telephone: snapshot['telephone'],
+      fcmToken: snapshot['fcmToken'],
     );
   }
 }

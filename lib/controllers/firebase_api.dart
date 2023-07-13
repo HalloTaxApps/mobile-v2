@@ -76,11 +76,12 @@ class FirebaseApi {
     });
   }
 
-  Future<void> initNotification() async {
+  Future initNotification() async {
     await _firebaseMessaging.requestPermission();
     final fCMToken = await _firebaseMessaging.getToken();
     print('Token:  $fCMToken');
     initPushNotification();
+    return fCMToken;
     // initLocalNotification();
   }
 }

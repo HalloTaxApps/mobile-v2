@@ -1,7 +1,12 @@
+// ignore_for_file: avoid_print
+
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class PercakapanPage extends StatefulWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -414,6 +419,37 @@ class _PercakapanPageState extends State<PercakapanPage> {
                     'label': true,
                   });
                 });
+
+                var url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+
+                Map data = {
+                  "to": widget.friend['fcmToken'],
+                  "notification": {
+                    "title": widget.friend['name'],
+                    "body": message,
+                  },
+                  "data": {
+                    "title": widget.friend['name'],
+                    "body": message,
+                  }
+                };
+
+                var body = jsonEncode(data);
+
+                Map<String, String> headers = {
+                  'Content-type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization':
+                      'key=AAAAaOuFdj4:APA91bHL6gHGTlYvEr4KiIiHvwIcjVmwXZA_BsIy76a9OVq1X3x4dZ5fyajHquFvP1HNS9c54vTYBG3wRiXVUfSdj405nUmmbm1OPbjKr_AAXExUpYKXw9cmH3SyIwuqBYm9CO8l__at'
+                };
+
+                var response = await http.post(
+                  url,
+                  headers: headers,
+                  body: body,
+                );
+
+                print('response = $response');
               },
               icon: Icon(
                 Icons.send,

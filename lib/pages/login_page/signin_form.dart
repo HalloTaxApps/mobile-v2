@@ -300,7 +300,9 @@ class _SigninFormState extends State<SigninForm> {
         'image': userCredential.user!.photoURL,
         'uid': userCredential.user!.uid,
         'date': DateTime.now(),
-        'role': 'Customer'
+        'role': 'Customer',
+        'telephone': '-',
+        'fcmToken': ''
       });
     }
     Navigator.pushAndRemoveUntil(
@@ -328,6 +330,8 @@ class _SigninFormState extends State<SigninForm> {
         'uid': userCredential.user!.uid,
         'date': DateTime.now(),
         'role': userRole,
+        'telephone': '-',
+        'fcmToken': ''
       });
     }
     Navigator.pushAndRemoveUntil(

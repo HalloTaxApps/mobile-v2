@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hallotaxv2/models/user_model.dart';
 import 'package:hallotaxv2/pages/splash_screen.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilPage extends StatefulWidget {
   final UserModel user;
@@ -34,8 +37,10 @@ class _ProfilPageState extends State<ProfilPage> {
                   TextEditingController(text: userData['name']);
               TextEditingController emailController =
                   TextEditingController(text: userData['email']);
-              TextEditingController hpController =
-                  TextEditingController(text: '0813344556677');
+              TextEditingController hpController = TextEditingController(
+                  text: userData['telephone'] == '-'
+                      ? '-'
+                      : userData['telephone']);
               // TextEditingController passwordController =
               //     TextEditingController(text: '');
               // TextEditingController roleController =
@@ -97,9 +102,13 @@ class _ProfilPageState extends State<ProfilPage> {
                                     Icons.logout,
                                     color: Colors.white,
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     GoogleSignIn().signOut();
                                     FirebaseAuth.instance.signOut();
+
+                                    SharedPreferences sharedPreferences =
+                                        await SharedPreferences.getInstance();
+                                    sharedPreferences.remove('isFirstOpen');
 
                                     Navigator.of(context).pushAndRemoveUntil(
                                         MaterialPageRoute(
@@ -177,24 +186,6 @@ class _ProfilPageState extends State<ProfilPage> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Text(
-                                          'Email',
-                                          style: TextStyle(
-                                            color: mainColor,
-                                            fontFamily: mainFont,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ),
-                                      customTextField(
-                                          controller: emailController,
-                                          name: userData['email'],
-                                          readOnly: true),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
                                       // Padding(
                                       //   padding: const EdgeInsets.all(5.0),
                                       //   child: Text(
@@ -244,8 +235,25 @@ class _ProfilPageState extends State<ProfilPage> {
                                       customTextField(
                                         controller: hpController,
                                         name: 'No HP',
-                                        readOnly: true,
                                       ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Text(
+                                          'Email',
+                                          style: TextStyle(
+                                            color: mainColor,
+                                            fontFamily: mainFont,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+                                      customTextField(
+                                          controller: emailController,
+                                          name: userData['email'],
+                                          readOnly: true),
                                       const SizedBox(
                                         height: 20,
                                       ),
@@ -260,6 +268,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                                 .update({
                                               'name': namaController.text,
                                               'email': emailController.text,
+                                              'telephone': hpController.text
                                             });
                                             // ignore: use_build_context_synchronously
                                             QuickAlert.show(

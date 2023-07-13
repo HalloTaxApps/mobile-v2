@@ -244,7 +244,9 @@ class _LoginFormState extends State<LoginForm> {
         'image': userCredential.user!.photoURL,
         'uid': userCredential.user!.uid,
         'date': DateTime.now(),
-        'role': 'Customer'
+        'role': 'Customer',
+        'telephone': '-',
+        'fcmToken': ''
       });
     }
     Navigator.pushAndRemoveUntil(
@@ -270,7 +272,9 @@ class _LoginFormState extends State<LoginForm> {
         'image': 'https://cdn-icons-png.flaticon.com/512/180/180691.png',
         'uid': userCredential.user!.uid,
         'date': DateTime.now(),
-        'role': 'Customer'
+        'role': 'Customer',
+        'telephone': '-',
+        'fcmToken': ''
       });
     }
     Navigator.pushAndRemoveUntil(
