@@ -70,7 +70,7 @@ class _TermPolicyState extends State<TermPolicy> {
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       fontFamily: mainFont,
-                      fontSize: 20,
+                      fontSize: 16,
                     ),
                   ),
                   const SizedBox(
@@ -92,7 +92,7 @@ class _TermPolicyState extends State<TermPolicy> {
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       fontFamily: mainFont,
-                      fontSize: 20,
+                      fontSize: 16,
                     ),
                   ),
                   const SizedBox(
@@ -108,7 +108,7 @@ class _TermPolicyState extends State<TermPolicy> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: mainColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       child: Text(
