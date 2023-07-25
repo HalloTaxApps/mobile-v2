@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hallotaxv2/pages/login_page/term_policy.dart';
 
 import '../login_page.dart';
 
@@ -153,8 +154,26 @@ class _SigninFormState extends State<SigninForm> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const TermPolicy()));
+                        },
+                        child: Text(
+                          'Baca syarat dan kebijakan kami',
+                          style: TextStyle(
+                            fontFamily: mainFont,
+                            fontWeight: FontWeight.w700,
+                            color: mainColor,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     width: double.infinity,

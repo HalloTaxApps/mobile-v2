@@ -1,10 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, duplicate_ignore
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hallotaxv2/models/user_model.dart';
+import 'package:hallotaxv2/pages/login_page/term_policy.dart';
 import 'package:hallotaxv2/pages/splash_screen.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -254,8 +255,28 @@ class _ProfilPageState extends State<ProfilPage> {
                                           controller: emailController,
                                           name: userData['email'],
                                           readOnly: true),
-                                      const SizedBox(
-                                        height: 20,
+                                      Row(
+                                        children: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const TermPolicy()));
+                                            },
+                                            child: Text(
+                                              'Baca syarat dan kebijakan kami',
+                                              style: TextStyle(
+                                                fontFamily: mainFont,
+                                                fontWeight: FontWeight.w700,
+                                                color: mainColor,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                       SizedBox(
                                         width: double.infinity,

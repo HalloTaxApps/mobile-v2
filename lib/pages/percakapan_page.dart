@@ -425,11 +425,11 @@ class _PercakapanPageState extends State<PercakapanPage> {
                 Map data = {
                   "to": widget.friend['fcmToken'],
                   "notification": {
-                    "title": widget.friend['name'],
+                    "title": widget.user.name,
                     "body": message,
                   },
                   "data": {
-                    "title": widget.friend['name'],
+                    "title": widget.user.name,
                     "body": message,
                   }
                 };
